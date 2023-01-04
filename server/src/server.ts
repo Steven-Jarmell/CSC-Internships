@@ -36,8 +36,6 @@ app.all("*", (req, res) => {
 	}
 });
 
-mongoose.set('strictQuery', false);
-
 // Once we connect to the database, have the app start listening
 mongoose.connection.once("open", () => {
 	console.log("Connected to MongoDB");

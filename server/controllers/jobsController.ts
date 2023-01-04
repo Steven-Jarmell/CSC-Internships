@@ -53,7 +53,7 @@ const createNewJob = async (req: Request, res: Response) => {
         .lean()
         .exec();
 
-	// Delete this. Only used to add a type to duplicate variable
+    // Delete this. Only used to add a type to duplicate variable
     console.log(typeof duplicate);
 
     // If there is a duplicate, throw a 409 error
@@ -109,9 +109,9 @@ const updateJob = async (req: Request, res: Response) => {
         jobLink,
     }: FullJob = req.body;
 
-	// Check inputs. contributor field is immutable and should not change 
-	if (
-		!id ||
+    // Check inputs. contributor field is immutable and should not change
+    if (
+        !id ||
         !companyName ||
         !jobDescription ||
         !Array.isArray(locations) ||
@@ -120,31 +120,43 @@ const updateJob = async (req: Request, res: Response) => {
         typeof jobStatus !== "boolean" ||
         !jobLink
     ) {
-        return res.status(400).json({ message: `All fields are required: ${id}` });
+        return res
+            .status(400)
+            .json({ message: `All fields are required: ${id}` });
     }
 
-	// Confirm that the job to be updated exists
+    // Confirm that the job to be updated exists
 
-	const job = await Job.findById(id).exec();
+    const job = await Job.findById(id).exec();
 
-	if (!job) {
-		return res.status(400).json({ message: "Note not found" })
-	}
+    if (!job) {
+        return res.status(400).json({ message: "Note not found" });
+    }
 
-	// Delete this. Only used to add a type to a job.
-	console.log(job);
+    // Check if this will cause a duplicate company to occur
+    const duplicate = await Job.findOne({ companyName })
+        .collation({ locale: "en", strength: 2 })
+        .lean()
+        .exec();
 
-	// Update the job
-	job.companyName = companyName;
-	job.jobDescription = jobDescription;
-	job.locations = locations;
-	job.sponsorshipStatus = sponsorshipStatus;
-	job.jobStatus = jobStatus;
-	job.jobLink = jobLink;
+    if (duplicate && duplicate?._id.toString() !== id) {
+        return res.status(409).json({ message: "Company name already exists!" });
+    }
 
-	const updatedJob = await job.save();
+    // Delete this. Only used to add a type to a job.
+    console.log(job);
 
-	res.json(`${updatedJob.companyName} job updated`);
+    // Update the job
+    job.companyName = companyName;
+    job.jobDescription = jobDescription;
+    job.locations = locations;
+    job.sponsorshipStatus = sponsorshipStatus;
+    job.jobStatus = jobStatus;
+    job.jobLink = jobLink;
+
+    const updatedJob = await job.save();
+
+    res.json(`${updatedJob.companyName} job updated`);
 };
 
 // @desc Delete a job
