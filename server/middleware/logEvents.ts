@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import fs from "fs";
 import path from "path";
 import { NextFunction, Request, Response } from "express";
+import crypto from 'crypto'
 
 const logEvents = async (
 	message: string,

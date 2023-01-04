@@ -15,4 +15,4 @@ router
 	.patch(updateJob)
 	.delete(deleteJob);
 
-export default router;
+module.exports = router;

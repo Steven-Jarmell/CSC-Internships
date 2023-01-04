@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 
-interface Job {
+export interface IJob {
 	companyName: string;
 	jobDescription: string;
 	locations: string[];
@@ -10,7 +10,7 @@ interface Job {
 	contributor?: string;
 }
 
-const jobSchema = new Schema<Job>({
+const jobSchema = new Schema<IJob>({
 	companyName: {
 		type: String,
 		required: true,
@@ -38,7 +38,8 @@ const jobSchema = new Schema<Job>({
 	contributor: {
 		type: String,
 		required: false,
+		default: "Anonymous",
 	},
 });
 
-export default model<Job>("Job", jobSchema);
+export default model<IJob>("Job", jobSchema);

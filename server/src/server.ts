@@ -8,7 +8,7 @@ import { logEvents, logger } from "../middleware/logEvents";
 import path from "path";
 
 const app: Express = express();
-const port: Number = Number(process.env.PORT || 8000); // Change to be in dotenv
+const port: Number = Number(process.env.PORT || 5000); // Change to be in dotenv
 
 connectDB();
 
@@ -22,19 +22,21 @@ app.use(express.json());
 app.use("/", require("../routes/root"));
 
 // For the jobs, use job routes
-//app.use("/jobs", require("../routes/jobRoutes"));
+app.use("/jobs", require("../routes/jobRoutes"));
 
 // Catch every wrong path
 app.all("*", (req, res) => {
 	res.status(404);
 	if (req.accepts("html")) {
-		res.sendFile(path.join(__dirname, "views", "404.html"));
+		res.sendFile(path.join(__dirname, "..", "views", "404.html"));
 	} else if (req.accepts("json")) {
 		res.json({ message: "404 Not Found" });
 	} else {
 		res.type("txt").send("404 Not Found");
 	}
 });
+
+mongoose.set('strictQuery', false);
 
 // Once we connect to the database, have the app start listening
 mongoose.connection.once("open", () => {
