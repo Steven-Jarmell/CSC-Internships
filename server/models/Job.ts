@@ -39,6 +39,7 @@ const jobSchema = new Schema<IJob>({
 		type: String,
 		required: false,
 		default: "Anonymous",
+		immutable: true,
 	},
 });
 
