@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { v4 as uuid } from "uuid";
 import fs from "fs";
 import path from "path";
 import { NextFunction, Request, Response } from "express";
@@ -9,7 +8,7 @@ const logEvents = async (
 	logFileName: string
 ): Promise<void> => {
 	const dateTime: string = `${format(new Date(), "yyyyMMdd\tHH:mm:ss")}`;
-	const logItem: string = `${dateTime}\t${uuid()}\t${message}\n`;
+	const logItem: string = `${dateTime}\t${crypto.randomUUID()}\t${message}\n`;
 
 	try {
 		// If the log file does not exist, make it
