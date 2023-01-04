@@ -53,9 +53,6 @@ const createNewJob = async (req: Request, res: Response) => {
         .lean()
         .exec();
 
-    // Delete this. Only used to add a type to duplicate variable
-    console.log(typeof duplicate);
-
     // If there is a duplicate, throw a 409 error
     if (duplicate) {
         return res.status(409).json({ message: "Duplicate job" });
@@ -140,11 +137,10 @@ const updateJob = async (req: Request, res: Response) => {
         .exec();
 
     if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: "Company name already exists!" });
+        return res
+            .status(409)
+            .json({ message: "Company name already exists!" });
     }
-
-    // Delete this. Only used to add a type to a job.
-    console.log(job);
 
     // Update the job
     job.companyName = companyName;
@@ -162,6 +158,23 @@ const updateJob = async (req: Request, res: Response) => {
 // @desc Delete a job
 // @route DELETE /jobs
 // @access Private
-const deleteJob = async (req: Request, res: Response) => {};
+const deleteJob = async (req: Request, res: Response) => {
+    const { id }: { id: string } = req.body;
+    if (!id) {
+        return res.status(400).json({ message: "Job id required" });
+    }
+
+    const job = await Job.findById(id).exec();
+
+    if (!job) {
+        return res.status(400).json({ message: "Job not found " });
+    }
+
+    const result = await job.deleteOne();
+
+    const reply: string = `Job ${result.companyName} with ID ${result._id} deleted`;
+
+    res.json(reply);
+};
 
 export { getAllJobs, createNewJob, updateJob, deleteJob };
