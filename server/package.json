@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/server.ts",
     "test": "nodemon -q src/server.ts"
   },
   "author": "",
@@ -18,6 +18,11 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "@types/uuid": "^9.0.0",
+    "date-fns": "^2.29.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "mongoose": "^6.8.2",
+    "uuid": "^9.0.0"
   }
 }
