@@ -13,7 +13,7 @@ interface Job {
 
 export const jobApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getJobs: builder.query<Job[], string>({
+        getJobs: builder.query<Job[], void>({
             query: () => ({
                 url: "/jobs",
                 validateStatus: (response, result) => {

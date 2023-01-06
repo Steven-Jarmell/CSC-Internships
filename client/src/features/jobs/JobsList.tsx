@@ -6,43 +6,46 @@ const JobsList = () => {
         data: jobs,
         isLoading,
         isSuccess,
-        error
-    } = useGetJobsQuery("jobsList");
+        error,
+    } = useGetJobsQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true,
+    });
 
-    let content = <h1>No Jobs</h1>;
+    // Let the default content be null
+    let content = null;
 
     if (isLoading) content = <h1>Loading...</h1>;
 
+    // If there is an error, print the message based on the type of error
     if (error) {
-        if ('status' in error) {
-          // you can access all properties of `FetchBaseQueryError` here
-          const errMsg = 'error' in error ? error.error : JSON.stringify(error.data)
-    
-          return (
-            <div>
-              <div>An error has occurred:</div>
-              <div>{errMsg}</div>
-            </div>
-          )
-        }
-        else {
-            // you can access all properties of `SerializedError` here
-            return <div>{error.message}</div>
-        }
-      }
+        if ("status" in error) {
+            // you can access all properties of `FetchBaseQueryError` here
+            const errMsg =
+                "error" in error ? error.error : JSON.stringify(error.data);
 
-    if (isSuccess) {
-        const tableContent =
-            jobs?.length &&
-            jobs.map((job) => {
-                return <Job key={job._id} jobId={job._id} />;
-            });
-
-        if (tableContent) {
             return (
-                <>{tableContent}</>
+                <div>
+                    <div>An error has occurred:</div>
+                    <div>{errMsg}</div>
+                </div>
             );
+        } else {
+            // you can access all properties of `SerializedError` here
+            return <div>{error.message}</div>;
         }
+    }
+
+    // If it was successful, map over the list and make job postings for each of them
+    if (isSuccess) {
+        return (
+            <>
+                {jobs.map((job) => {
+                    return <Job key={job._id} jobId={job._id} />;
+                })}
+            </>
+        );
     }
 
     return content;
