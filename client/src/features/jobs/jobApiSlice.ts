@@ -1,6 +1,6 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
-interface Job {
+export interface IJob {
     _id: number;
     companyName: string;
     jobDescription: string;
@@ -13,7 +13,7 @@ interface Job {
 
 export const jobApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getJobs: builder.query<Job[], void>({
+        getJobs: builder.query<IJob[], void>({
             query: () => ({
                 url: "/jobs",
                 validateStatus: (response, result) => {
@@ -21,10 +21,39 @@ export const jobApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
-        //addNewJob: builder.mutation({}),
-        //updateJob: builder.mutation({}),
-        //deleteJob: builder.mutation({}),
+        addNewJob: builder.mutation<void, IJob>({
+            query: (jobData) => ({
+                url: "/jobs",
+                method: "POST",
+                body: {
+                    ...jobData,
+                },
+            }),
+        }),
+        updateJob: builder.mutation<void, IJob>({
+            query: (jobData) => ({
+                url: "/jobs",
+                method: "PATCH",
+                body: {
+                    ...jobData,
+                },
+            }),
+        }),
+        deleteJob: builder.mutation<void, IJob>({
+            query: ({ id }) => ({
+                url: "/users",
+                method: "DELETE",
+                body: { id },
+            }),
+        }),
     }),
 });
 
-export const { useGetJobsQuery } = jobApiSlice;
+export const {
+    useGetJobsQuery,
+    useAddNewJobMutation,
+    useUpdateJobMutation,
+    useDeleteJobMutation,
+} = jobApiSlice;
+
+

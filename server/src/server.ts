@@ -9,7 +9,7 @@ import path from "path";
 import cors from 'cors';
 
 const app: Express = express();
-const port: Number = Number(process.env.PORT || 5000); // Change to be in dotenv
+const port: Number = Number(process.env.PORT || 5001); // Change to be in dotenv
 
 connectDB();
 
