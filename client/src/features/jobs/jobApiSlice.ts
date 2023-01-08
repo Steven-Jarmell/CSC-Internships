@@ -1,7 +1,7 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
 interface IJob {
-    _id?: number;
+    _id?: string;
     companyName: string;
     jobDescription: string;
     locations: string[];
@@ -43,12 +43,13 @@ export const jobApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
-        deleteJob: builder.mutation<void, IJob>({
-            query: ({ _id }) => ({
-                url: "/users",
+        deleteJob: builder.mutation<void, { id: string; }>({
+            query: (id) => ({
+                url: "/jobs",
                 method: "DELETE",
-                body: { _id },
+                body: id,
             }),
+            invalidatesTags: [{ type: "Job", id: "LIST" }],
         }),
     }),
 });

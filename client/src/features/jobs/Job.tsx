@@ -1,9 +1,9 @@
 import { memo } from "react";
-import { useGetJobsQuery } from "./jobApiSlice";
-import '../../styles/job.css'
+import { useDeleteJobMutation, useGetJobsQuery } from "./jobApiSlice";
+import "../../styles/job.css";
 
 type Props = {
-    jobId: number;
+    jobId: string;
 };
 
 const Job = ({ jobId }: Props) => {
@@ -17,20 +17,49 @@ const Job = ({ jobId }: Props) => {
         }),
     });
 
+    const [
+        deleteJob,
+        { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+    ] = useDeleteJobMutation();
+
+    const onDeleteJobClicked = async () => {
+        await deleteJob({ id: jobId });
+    };
+
     return (
         <div className="job-container">
             <h1 className="job-name">{job?.companyName}</h1>
-            <p className="job-description"><b>Description:</b> {job?.jobDescription}</p>
-            <p className="job-location-title"><b>Locations:</b></p>
+            <p className="job-description">
+                <b>Description:</b> {job?.jobDescription}
+            </p>
+            <p className="job-location-title">
+                <b>Locations:</b>
+            </p>
             <ul className="job-locations-container">
                 {job?.locations.map((location: string, i: number) => {
-                    return <li key={i} className="job-location">{location}</li>;
+                    return (
+                        <li key={i} className="job-location">
+                            {location}
+                        </li>
+                    );
                 })}
             </ul>
-            <p className="job-sponsorship"><b>Sponsorship:</b> {job?.sponsorshipStatus ? "Sponsorship Available" : "Sponsorship Not Available"}</p>
-            <p className="job-status"><b>Status:</b> {job?.jobStatus ? "Job Open" : "Job Closed"}</p>
-            <a className="job-link" href={job?.jobLink}>Apply</a>
-            <p className="job-contributor"><b>Added By:</b> {job?.contributor}</p>
+            <p className="job-sponsorship">
+                <b>Sponsorship:</b>
+                {job?.sponsorshipStatus
+                    ? "Sponsorship Available"
+                    : "Sponsorship Not Available"}
+            </p>
+            <p className="job-status">
+                <b>Status:</b> {job?.jobStatus ? "Job Open" : "Job Closed"}
+            </p>
+            <a className="job-link" href={job?.jobLink}>
+                Apply
+            </a>
+            <p className="job-contributor">
+                <b>Added By:</b> {job?.contributor}
+            </p>
+            <button onClick={onDeleteJobClicked}>Delete</button>
         </div>
     );
 };
