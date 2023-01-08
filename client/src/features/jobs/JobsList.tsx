@@ -42,7 +42,7 @@ const JobsList = () => {
         return (
             <>
                 {jobs.map((job) => {
-                    return <Job key={job._id} jobId={job._id} />;
+                    return <Job key={job._id} jobId={job._id!} />;
                 })}
             </>
         );

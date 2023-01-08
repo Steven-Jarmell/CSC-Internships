@@ -1,7 +1,7 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
-export interface IJob {
-    _id: number;
+interface IJob {
+    _id?: number;
     companyName: string;
     jobDescription: string;
     locations: string[];
@@ -20,8 +20,11 @@ export const jobApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError;
                 },
             }),
+            providesTags: (result, error, arg) => {
+				return [{ type: "Job", id: "LIST" }];
+			},
         }),
-        addNewJob: builder.mutation<void, IJob>({
+        addNewJob: builder.mutation<IJob, IJob>({
             query: (jobData) => ({
                 url: "/jobs",
                 method: "POST",
@@ -29,8 +32,9 @@ export const jobApiSlice = apiSlice.injectEndpoints({
                     ...jobData,
                 },
             }),
+            invalidatesTags: [{ type: "Job", id: "LIST" }],
         }),
-        updateJob: builder.mutation<void, IJob>({
+        updateJob: builder.mutation<IJob, IJob>({
             query: (jobData) => ({
                 url: "/jobs",
                 method: "PATCH",
@@ -40,10 +44,10 @@ export const jobApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         deleteJob: builder.mutation<void, IJob>({
-            query: ({ id }) => ({
+            query: ({ _id }) => ({
                 url: "/users",
                 method: "DELETE",
-                body: { id },
+                body: { _id },
             }),
         }),
     }),

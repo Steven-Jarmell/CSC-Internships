@@ -1,11 +1,14 @@
-import JobsList from './features/jobs/JobsList'
-import './styles/App.css'
+import JobsList from "./features/jobs/JobsList";
+import NewJobForm from "./features/jobs/NewJobForm";
+import "./styles/App.css";
 
 function App() {
-
-  return (
-     <JobsList />
-  )
+    return (
+        <>
+            <JobsList />
+            <NewJobForm />
+        </>
+    );
 }
 
-export default App
+export default App;

@@ -1,0 +1,12 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    width: 30%;
+}
+
+.add-location-btn {
+    width: 30%;
+}
