@@ -1,4 +1,12 @@
 .joblist-posting {
     display: flex;
     gap: 10px;
+    border-bottom: 1px solid black;
+    padding: 5px;
+}
+
+.joblist-container {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
 }

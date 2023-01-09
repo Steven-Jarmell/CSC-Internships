@@ -1,0 +1,20 @@
+.layoutButtons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.layout-button {
+    padding: 10px;
+    width: 150px;
+    height: 60px;
+}
+
+.layout-filter-button {
+
+}
+
+.layout-add-button {
+
+}

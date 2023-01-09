@@ -1,5 +1,4 @@
 import { useGetJobsQuery } from "./jobApiSlice";
-import Job from "./Job";
 import '../../styles/jobList.css'
 
 const JobsList = () => {
@@ -41,17 +40,17 @@ const JobsList = () => {
     // If it was successful, map over the list and make job postings for each of them
     if (isSuccess) {
         return (
-            <>
-                {jobs.map((job) => {
+            <div className="joblist-container">
+                {jobs.map((job, i) => {
                     return (
-                        <div className="joblist-posting">
+                        <div key={i} className="joblist-posting">
                             <p>{job.companyName}</p>
                             <p>{job.locations.join(';  ')}</p>
                             <p>{job.jobStatus ? "Open" : "Closed"}</p>
                         </div>
                     )
                 })}
-            </>
+            </div>
         );
     }
 

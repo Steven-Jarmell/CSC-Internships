@@ -1,12 +1,12 @@
 import Header from "./components/header/Header";
-import JobPostingContainer from "./components/layout/JobPostingContainer";
+import Layout from "./components/layout/Layout";
 import "./styles/App.css";
 
 function App() {
     return (
         <>
             <Header />
-            <JobPostingContainer />
+            <Layout />
         </>
     );
 }

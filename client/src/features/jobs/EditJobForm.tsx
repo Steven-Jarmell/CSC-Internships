@@ -98,7 +98,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
         <>
             <form className="form" onSubmit={onSaveJobClicked}>
                 <div className="form-input form-save-container">
-                    <h2 className="form-save-title">New Job</h2>
+                    <h2 className="form-save-title">Edit Job</h2>
                     <div className="=form-save-button">
                         <button
                             className="form-button"
