@@ -88,7 +88,7 @@ const createNewJob = async (req: Request, res: Response) => {
 };
 
 interface FullJob extends IJob {
-    id: string;
+    _id: string;
 }
 
 // @desc Update a job
@@ -97,7 +97,7 @@ interface FullJob extends IJob {
 const updateJob = async (req: Request, res: Response) => {
     // Get data from request body
     const {
-        id,
+        _id,
         companyName,
         jobDescription,
         locations,
@@ -108,7 +108,7 @@ const updateJob = async (req: Request, res: Response) => {
 
     // Check inputs. contributor field is immutable and should not change
     if (
-        !id ||
+        !_id ||
         !companyName ||
         !jobDescription ||
         !Array.isArray(locations) ||
@@ -119,12 +119,12 @@ const updateJob = async (req: Request, res: Response) => {
     ) {
         return res
             .status(400)
-            .json({ message: `All fields are required: ${id}` });
+            .json({ message: 'All fields are required' });
     }
 
     // Confirm that the job to be updated exists
 
-    const job = await Job.findById(id).exec();
+    const job = await Job.findById(_id).exec();
 
     if (!job) {
         return res.status(400).json({ message: "Note not found" });
@@ -136,7 +136,7 @@ const updateJob = async (req: Request, res: Response) => {
         .lean()
         .exec();
 
-    if (duplicate && duplicate?._id.toString() !== id) {
+    if (duplicate && duplicate?._id.toString() !== _id) {
         return res
             .status(409)
             .json({ message: "Company name already exists!" });

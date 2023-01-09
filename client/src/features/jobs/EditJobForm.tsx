@@ -1,49 +1,57 @@
 import { useState } from "react";
-import { useAddNewJobMutation } from "./jobApiSlice";
+import { IJob, useUpdateJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
+import Job from "./Job";
 
-const NewJobForm = () => {
-    const [addNewJob, { isLoading, isSuccess, isError, error }] =
-        useAddNewJobMutation();
+type Props = {
+    job: IJob;
+    jobId: string;
+    setReturnContent: React.Dispatch<React.SetStateAction<JSX.Element>>;
+};
 
-    const [companyName, setCompanyName] = useState<string>("");
-    const [jobDescription, setJobDescription] = useState<string>("");
-    const [locations, setLocations] = useState<string[]>([""]);
-    const [sponsorshipStatus, setSponsorshipStatus] = useState<boolean>(false);
-    const [jobStatus, setJobStatus] = useState<boolean>(false);
-    const [jobLink, setJobLink] = useState<string>("");
-    const [contributor, setContributor] = useState<string>("");
+const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
+    const [updateJob, { isLoading }] = useUpdateJobMutation();
+    const [companyName, setCompanyName] = useState<string>(job.companyName);
+    const [jobDescription, setJobDescription] = useState<string>(
+        job.jobDescription
+    );
+    const [locations, setLocations] = useState<string[]>(job.locations);
+    const [sponsorshipStatus, setSponsorshipStatus] = useState<boolean>(
+        job.sponsorshipStatus
+    );
+    const [jobStatus, setJobStatus] = useState<boolean>(job.jobStatus);
+    const [jobLink, setJobLink] = useState<string>(job.jobLink);
 
     const canSave =
-        [
-            companyName,
-            jobDescription,
-            locations.length,
-            jobLink,
-            contributor,
-        ].every(Boolean) && !isLoading;
+        [companyName, jobDescription, locations.length, jobLink].every(
+            Boolean
+        ) && !isLoading;
 
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (canSave) {
-            await addNewJob({
+            await updateJob({
+                _id,
                 companyName,
                 jobDescription,
                 locations,
                 sponsorshipStatus,
                 jobStatus,
                 jobLink,
-                contributor,
+            }).then(() => {
+                const newJob = {
+                    _id,
+                    companyName,
+                    jobDescription,
+                    locations,
+                    sponsorshipStatus,
+                    jobStatus,
+                    jobLink,
+                    contributor: job.contributor
+                };
+                setReturnContent(<Job jobId={_id} updatedJob={newJob} />);
             });
         }
-
-        setCompanyName("");
-        setJobDescription("");
-        setLocations([""]);
-        setSponsorshipStatus(false);
-        setJobStatus(false);
-        setJobLink("");
-        setContributor("");
     };
 
     const onCompanyNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +92,6 @@ const NewJobForm = () => {
 
     const onJobLinkChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
-    };
-
-    const onContributorChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setContributor(e.target.value);
     };
 
     const content = (
@@ -192,21 +196,6 @@ const NewJobForm = () => {
                         onChange={onJobLinkChanged}
                     />
                 </div>
-                <div className="form-input">
-                    <label className="form-label" htmlFor="contributor">
-                        Contributor (Will need to change once github login
-                        implemented):
-                    </label>
-                    <input
-                        className="form-label"
-                        id="contributor"
-                        name="contributor"
-                        type="text"
-                        autoComplete="off"
-                        value={contributor}
-                        onChange={onContributorChanged}
-                    />
-                </div>
             </form>
         </>
     );
@@ -214,4 +203,4 @@ const NewJobForm = () => {
     return content;
 };
 
-export default NewJobForm;
+export default EditJobForm;

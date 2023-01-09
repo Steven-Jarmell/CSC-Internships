@@ -1,12 +1,12 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
-interface IJob {
+export interface IJob {
     _id?: string;
     companyName: string;
     jobDescription: string;
     locations: string[];
-    sponsorshipStatus: Boolean;
-    jobStatus: Boolean;
+    sponsorshipStatus: boolean;
+    jobStatus: boolean;
     jobLink: string;
     contributor?: string;
 }
@@ -42,6 +42,7 @@ export const jobApiSlice = apiSlice.injectEndpoints({
                     ...jobData,
                 },
             }),
+            invalidatesTags: [{ type: "Job", id: "LIST" }],
         }),
         deleteJob: builder.mutation<void, { id: string; }>({
             query: (id) => ({

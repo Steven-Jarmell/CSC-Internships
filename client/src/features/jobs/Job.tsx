@@ -1,32 +1,39 @@
-import { memo } from "react";
-import { useDeleteJobMutation, useGetJobsQuery } from "./jobApiSlice";
+import { memo, useState } from "react";
+import { useDeleteJobMutation, useGetJobsQuery, IJob } from "./jobApiSlice";
 import "../../styles/job.css";
+import EditJobForm from "./EditJobForm";
 
 type Props = {
     jobId: string;
+    updatedJob: IJob;
 };
 
-const Job = ({ jobId }: Props) => {
+const Job = ({ jobId, updatedJob }: Props) => {
     // Query the jobs and select the specific job based on the id
     // Will want to update this in the future to keep a separate ID for all the posts with entityadapter
     // https://redux.js.org/tutorials/essentials/part-6-performance-normalization
 
-    const { job } = useGetJobsQuery(undefined, {
+    let { job } = useGetJobsQuery(undefined, {
         selectFromResult: ({ data }) => ({
             job: data?.find((job) => job._id === jobId),
         }),
     });
 
-    const [
-        deleteJob,
-        { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-    ] = useDeleteJobMutation();
+    if (updatedJob) {
+        job = updatedJob;
+    }
+
+    const [deleteJob] = useDeleteJobMutation();
 
     const onDeleteJobClicked = async () => {
         await deleteJob({ id: jobId });
     };
 
-    return (
+    const onEditJobClicked = async () => {
+        setReturnContent(<EditJobForm job={job!} jobId={jobId} setReturnContent={setReturnContent}/>);
+    }
+
+    const content = (
         <div className="job-container">
             <h1 className="job-name">{job?.companyName}</h1>
             <p className="job-description">
@@ -60,8 +67,13 @@ const Job = ({ jobId }: Props) => {
                 <b>Added By:</b> {job?.contributor}
             </p>
             <button onClick={onDeleteJobClicked}>Delete</button>
+            <button onClick={onEditJobClicked}>Edit</button>
         </div>
     );
+
+    const [returnContent, setReturnContent] = useState<JSX.Element>(content);
+
+    return returnContent;
 };
 
 // Memoize the job such that it only rerenders if their props change
