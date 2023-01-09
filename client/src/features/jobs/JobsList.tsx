@@ -1,5 +1,6 @@
 import { useGetJobsQuery } from "./jobApiSlice";
 import Job from "./Job";
+import '../../styles/jobList.css'
 
 const JobsList = () => {
     const {
@@ -42,7 +43,13 @@ const JobsList = () => {
         return (
             <>
                 {jobs.map((job) => {
-                    return <Job key={job._id} jobId={job._id!} />;
+                    return (
+                        <div className="joblist-posting">
+                            <p>{job.companyName}</p>
+                            <p>{job.locations.join(';  ')}</p>
+                            <p>{job.jobStatus ? "Open" : "Closed"}</p>
+                        </div>
+                    )
                 })}
             </>
         );

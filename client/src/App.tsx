@@ -1,12 +1,12 @@
-import JobsList from "./features/jobs/JobsList";
-import NewJobForm from "./features/jobs/NewJobForm";
+import Header from "./components/header/Header";
+import JobPostingContainer from "./components/layout/JobPostingContainer";
 import "./styles/App.css";
 
 function App() {
     return (
         <>
-            <JobsList />
-            <NewJobForm />
+            <Header />
+            <JobPostingContainer />
         </>
     );
 }

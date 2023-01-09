@@ -5,7 +5,7 @@ import EditJobForm from "./EditJobForm";
 
 type Props = {
     jobId: string;
-    updatedJob: IJob;
+    updatedJob?: IJob;
 };
 
 const Job = ({ jobId, updatedJob }: Props) => {
