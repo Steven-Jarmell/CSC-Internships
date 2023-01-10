@@ -1,7 +1,8 @@
 import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
 import JobsList from "../../features/jobs/JobsList";
 import "../../styles/jobPostingContainer.css";
-import Job from '../../features/jobs/Job';
+import Job from "../../features/jobs/Job";
+import Filter from "./Filter";
 
 const JobPostingContainer = () => {
     const { data: jobs, isSuccess, error } = useGetJobsQuery();
@@ -10,7 +11,9 @@ const JobPostingContainer = () => {
     if (isSuccess) {
         return (
             <div className="job-posting-container">
-                <div className="job-posting-container-object">
+                <div className="job-posting-container-object job-postings">
+                    {/* Add filters list here*/}
+                    <Filter />
                     <JobsList />
                 </div>
                 <div className="job-posting-container-object">
@@ -35,7 +38,7 @@ const JobPostingContainer = () => {
             return <div>{error.message}</div>;
         }
     } else {
-        return <h1>Loading...</h1>
+        return <h1>Loading...</h1>;
     }
 };
 

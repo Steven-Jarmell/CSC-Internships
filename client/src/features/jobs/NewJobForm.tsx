@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useAddNewJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 
-const NewJobForm = () => {
+type Props = {
+    toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const NewJobForm = ({ toggleModal }: Props) => {
     const [addNewJob, { isLoading, isSuccess, isError, error }] =
         useAddNewJobMutation();
 
@@ -44,6 +48,8 @@ const NewJobForm = () => {
         setJobStatus(false);
         setJobLink("");
         setContributor("");
+
+        toggleModal(false);
     };
 
     const onCompanyNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {

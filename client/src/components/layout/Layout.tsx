@@ -1,6 +1,6 @@
 import JobPostingContainer from "./JobPostingContainer";
 import LayoutButtons from "./LayoutButtons";
-import '../../styles/layout.css'
+import "../../styles/layout.css";
 
 const Layout = () => {
     return (
@@ -8,7 +8,7 @@ const Layout = () => {
             <LayoutButtons />
             <JobPostingContainer />
         </div>
-    )
-}
+    );
+};
 
 export default Layout;

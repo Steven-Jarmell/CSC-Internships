@@ -7,4 +7,10 @@
 .job-posting-container-object {
     width: 50%;
     height: 70vh;
+    border: 1px solid black;
+}
+
+.job-postings {
+    display: flex;
+    flex-direction: column;
 }
