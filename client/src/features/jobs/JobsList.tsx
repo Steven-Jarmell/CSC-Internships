@@ -1,7 +1,11 @@
-import { useGetJobsQuery } from "./jobApiSlice";
-import '../../styles/jobList.css'
+import { IJob, useGetJobsQuery } from "./jobApiSlice";
+import "../../styles/jobList.css";
 
-const JobsList = () => {
+type Props = {
+    setJobShownId: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const JobsList = ({ setJobShownId }: Props) => {
     const {
         data: jobs,
         isLoading,
@@ -37,18 +41,26 @@ const JobsList = () => {
         }
     }
 
+    const onJobCardClicked = (job: IJob) => {
+        setJobShownId(job._id!);
+    };
+
     // If it was successful, map over the list and make job postings for each of them
     if (isSuccess) {
         return (
             <div className="joblist-container">
                 {jobs.map((job, i) => {
                     return (
-                        <div key={i} className="joblist-posting">
+                        <div
+                            key={i}
+                            className="joblist-posting"
+                            onClick={() => onJobCardClicked(job)}
+                        >
                             <p>{job.companyName}</p>
-                            <p>{job.locations.join(';  ')}</p>
+                            <p>{job.locations.join(";  ")}</p>
                             <p>{job.jobStatus ? "Open" : "Closed"}</p>
                         </div>
-                    )
+                    );
                 })}
             </div>
         );

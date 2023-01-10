@@ -3,9 +3,12 @@ import JobsList from "../../features/jobs/JobsList";
 import "../../styles/jobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import Filter from "./Filter";
+import { useState } from "react";
 
 const JobPostingContainer = () => {
     const { data: jobs, isSuccess, error } = useGetJobsQuery();
+
+    const [jobShownId, setJobShownId] = useState<string>("");
 
     // If it was successful, get the first job if it exists
     if (isSuccess) {
@@ -14,10 +17,13 @@ const JobPostingContainer = () => {
                 <div className="job-posting-container-object job-postings">
                     {/* Add filters list here*/}
                     <Filter />
-                    <JobsList />
+                    <JobsList setJobShownId={setJobShownId} />
                 </div>
                 <div className="job-posting-container-object">
-                    <Job jobId={jobs[0]._id!} />
+                    <Job
+                        key={jobShownId}
+                        jobId={jobShownId ? jobShownId : jobs[0]._id!}
+                    />
                 </div>
             </div>
         );
