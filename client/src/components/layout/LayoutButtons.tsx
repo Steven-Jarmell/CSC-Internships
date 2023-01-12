@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../../styles/layoutButtons.component.css";
 import NewJobForm from "../../features/jobs/NewJobForm";
 import Modal from "../modals/Modal";
+import NewFilterForm from "../../features/filter/NewFilterForm";
 
 const LayoutButtons = () => {
     const [showFilter, setShowFilter] = useState(false);
@@ -31,7 +32,10 @@ const LayoutButtons = () => {
             </button>
             {/* Ensure that the filter and add job modals cannot be open at the same time */}
             {showFilter && !showAddJob ? (
-                <Modal toggleModal={setShowFilter} content={<h1>Hello</h1>} />
+                <Modal
+                    toggleModal={setShowFilter}
+                    content={<NewFilterForm toggleModal={setShowFilter} />}
+                />
             ) : null}
             {showAddJob && !showFilter ? (
                 <Modal

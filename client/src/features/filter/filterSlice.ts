@@ -1,9 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store"
 
+export enum FilterType {
+    LOCATION = 'location',
+    COMPANY_NAME = 'companyName',
+    JOB_TYPE = 'jobType',
+    JOB_STATUS = 'jobStatus',
+    SPONSORSHIP = 'sponsorship'
+}
+
 // Define a type for the slice state
-type Filter = {
-    type: 'location' | 'companyName' | 'jobType' | 'status';
+export type Filter = {
+    type: FilterType;
     value: string;
 }
 
@@ -20,8 +28,8 @@ const filterSlice = createSlice({
     name: "filters",
     initialState,
     reducers: {
-        addFilter(state: FiltersList, action: PayloadAction<Filter>) {
-            state.filters.push(action.payload);
+        addFilter(state: FiltersList, action: PayloadAction<Filter[]>) {
+            state.filters = action.payload;
         },
         removeFilter(state: FiltersList, action: PayloadAction<Filter>) {
             state.filters.filter(filter => (filter.type !== action.payload.type) && (filter.value !== action.payload.value))
