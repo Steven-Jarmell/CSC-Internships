@@ -30,7 +30,9 @@ const LayoutButtons = () => {
                 Add Job
             </button>
             {/* Ensure that the filter and add job modals cannot be open at the same time */}
-            {showFilter && !showAddJob ? <h1>Hi</h1> : null}
+            {showFilter && !showAddJob ? (
+                <Modal toggleModal={setShowFilter} content={<h1>Hello</h1>} />
+            ) : null}
             {showAddJob && !showFilter ? (
                 <Modal
                     toggleModal={setShowAddJob}
