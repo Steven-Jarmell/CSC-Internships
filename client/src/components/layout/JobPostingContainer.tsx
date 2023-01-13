@@ -4,6 +4,7 @@ import "../../styles/jobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import Filter from "./Filter";
 import { useState } from "react";
+import FilterList from "../../features/filter/FilterList";
 
 const JobPostingContainer = () => {
     const { data: jobs, isSuccess, error } = useGetJobsQuery();
@@ -15,8 +16,7 @@ const JobPostingContainer = () => {
         return (
             <div className="job-posting-container">
                 <div className="job-posting-container-object job-postings">
-                    {/* Add filters list here*/}
-                    <Filter />
+                    <FilterList />
                     <JobsList setJobShownId={setJobShownId} />
                 </div>
                 <div className="job-posting-container-object">

@@ -2,21 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store"
 
 export enum FilterType {
-    LOCATION = 'location',
-    COMPANY_NAME = 'companyName',
-    JOB_TYPE = 'jobType',
-    JOB_STATUS = 'jobStatus',
-    SPONSORSHIP = 'sponsorship'
+    LOCATION = 'Location',
+    COMPANY_NAME = 'Company Name',
+    JOB_TYPE = 'Job Type',
+    JOB_STATUS = 'Job Status',
+    SPONSORSHIP = 'Sponsorship'
 }
 
 // Define a type for the slice state
-export type Filter = {
+export type IFilter = {
     type: FilterType;
     value: string;
 }
 
 type FiltersList = {
-    filters: Filter[];
+    filters: IFilter[];
 }
 
 // Define the initial state using that type
@@ -28,10 +28,10 @@ const filterSlice = createSlice({
     name: "filters",
     initialState,
     reducers: {
-        addFilter(state: FiltersList, action: PayloadAction<Filter[]>) {
+        addFilter(state: FiltersList, action: PayloadAction<IFilter[]>) {
             state.filters = action.payload;
         },
-        removeFilter(state: FiltersList, action: PayloadAction<Filter>) {
+        removeFilter(state: FiltersList, action: PayloadAction<IFilter>) {
             state.filters.filter(filter => (filter.type !== action.payload.type) && (filter.value !== action.payload.value))
         }
     },

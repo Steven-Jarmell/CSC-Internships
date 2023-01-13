@@ -1,0 +1,9 @@
+.filter-list-container {
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    overflow-y: hidden;
+    overflow-x: auto;
+    position: relative;
+    gap: 8px;
+}

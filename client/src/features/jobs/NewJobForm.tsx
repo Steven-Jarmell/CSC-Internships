@@ -140,29 +140,34 @@ const NewJobForm = ({ toggleModal }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    {locations.map((location, i) => (
-                        <div className="location" key={i}>
-                            <input
-                                type="text"
-                                placeholder={`Location #${i + 1} name`}
-                                value={location}
-                                onChange={onLocationNameChange(i)}
-                            />
-                            <button
-                                type="button"
-                                onClick={onLocationRemoved(i)}
-                            >
-                                -
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="add-location-btn"
-                        type="button"
-                        onClick={onLocationAdded}
-                    >
-                        Add Location
-                    </button>
+                    <label className="form-label" htmlFor="jobLocations">
+                        Job Location(s):
+                    </label>
+                    <div>
+                        {locations.map((location, i) => (
+                            <div className="location" key={i}>
+                                <input
+                                    type="text"
+                                    placeholder={`Location #${i + 1} name`}
+                                    value={location}
+                                    onChange={onLocationNameChange(i)}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={onLocationRemoved(i)}
+                                >
+                                    -
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            className="add-location-btn"
+                            type="button"
+                            onClick={onLocationAdded}
+                        >
+                            Add Location
+                        </button>
+                    </div>
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="sponsorshipStatus">
