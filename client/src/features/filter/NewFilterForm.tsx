@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { addFilter, IFilter, FilterType, getFilters } from "./filterSlice";
+import { addFilter, IFilter, FilterType, getFilters, removeFilter } from "./filterSlice";
 import "../../styles/form.css";
 
 type Props = {
@@ -105,7 +105,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
                 <div className="form-current-filters-container">
                     Filters:
                     {filtersSelected.map((filter, i) => {
-                        return <p key={i}>{filter.value}</p>;
+                        return <div className="filter-container" key={i} onClick={() => dispatch(removeFilter(filter))}>{filter.value}</div>;
                     })}
                 </div>
                 <div className="form-input">

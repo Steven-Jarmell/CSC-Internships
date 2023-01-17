@@ -26,16 +26,16 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
 		job = updatedJob;
 	}
 
-    useEffect(() => {
-        if (isDelSuccess) {
-            setJobShownId(jobs[0]._id!);
-        }
-    }, [jobs])
-
 	const [
 		deleteJob,
-		{ isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+		{ isSuccess: isDelSuccess, isError: isDelError, isLoading: isDelLoading, error: delerror },
 	] = useDeleteJobMutation();
+
+	useEffect(() => {
+        if (isDelSuccess || isDelLoading) {
+            setJobShownId(jobs[0]._id!);
+        }
+    }, [jobs, isDelSuccess])
 
 	const onDeleteJobClicked = async () => {
 		await deleteJob({ id: jobId }).then(() => {
@@ -43,10 +43,11 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
                 if (jobs[0]._id === jobId) {
                     setJobShownId(jobs[1]._id!);
                 } else {
-                    setJobShownId(jobs[0]._id!);
+					console.log("here");
+                    setJobShownId(jobs[1]._id!);
                 }
             } else {
-                setJobShownId("");
+				setJobShownId("");
             }
         });
 	};
