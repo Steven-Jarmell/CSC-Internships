@@ -4,6 +4,5 @@
     align-items: center;
     overflow-y: hidden;
     overflow-x: auto;
-    position: relative;
     gap: 8px;
 }

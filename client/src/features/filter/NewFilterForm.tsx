@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { addFilter, Filter, FilterType, getFilters } from "./filterSlice";
+import { addFilter, IFilter, FilterType, getFilters } from "./filterSlice";
 import "../../styles/form.css";
 
 type Props = {
@@ -13,7 +13,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
 
     const filters = useAppSelector(getFilters);
 
-    const [filtersSelected, setFiltersSelected] = useState<Filter[]>(filters);
+    const [filtersSelected, setFiltersSelected] = useState<IFilter[]>(filters);
     const [locations, setLocations] = useState<string[]>([""]);
     const [companyName, setCompanyName] = useState<string>("");
     const [jobStatus, setJobStatus] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
 
     const onSetFiltersClicked = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        console.log("clicked")
+        
         // Add the current filters to the store
         dispatch(addFilter(filtersSelected));
 
@@ -65,7 +65,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
     };
 
     const onFilterAdded = (type: FilterType, value: string) => {
-        let newFilter: Filter = {
+        let newFilter: IFilter = {
             type: type,
             value: value,
         };

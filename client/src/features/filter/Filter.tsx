@@ -1,12 +1,15 @@
+import { useAppDispatch } from '../../app/hooks';
 import '../../styles/Filter.css'
-import { IFilter } from './filterSlice';
+import { IFilter, removeFilter } from './filterSlice';
 
 type Props = {
     filter: IFilter;
 };
 
 const Filter = ({ filter }: Props) => {
-    return <div className="filter-container">{filter.type}: {filter.value}</div>;
+    const dispatch = useAppDispatch();
+    
+    return <div className="filter-container" onClick={() => dispatch(removeFilter(filter))}>{filter.type}: {filter.value}</div>;
 };
 
 export default Filter;

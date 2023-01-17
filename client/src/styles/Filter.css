@@ -1,10 +1,21 @@
 .filter-container {
-    border-bottom: 1px solid black;
-    box-sizing: border-box;
-    padding: 6px 15px;
-    border-radius: 50px;
     background-color: blue;
+    height: 36px;
+    width: auto;
     color: white;
-    font-size: 15px;
-    font-weight: bold;
+    display: inline-block;
+    padding: 5px 20px;
+    margin: 8px 10px;
+    border-radius: 5px;
+    transition: all 0.05s ease-in-out;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    align-items: center;
+}
+
+.filter-container:hover {
+    background-color: red;
+    color: black;
+    cursor: pointer;
 }
