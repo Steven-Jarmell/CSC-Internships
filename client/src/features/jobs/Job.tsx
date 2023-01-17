@@ -27,7 +27,9 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
 	}
 
     useEffect(() => {
-        setJobShownId(jobs[0]._id!);
+        if (isDelSuccess) {
+            setJobShownId(jobs[0]._id!);
+        }
     }, [jobs])
 
 	const [
