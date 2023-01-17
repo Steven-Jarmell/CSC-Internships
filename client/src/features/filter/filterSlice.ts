@@ -31,16 +31,17 @@ const filterSlice = createSlice({
     addFilter(state: FiltersList, action: PayloadAction<IFilter[]>) {
       state.filters = action.payload;
     },
-    removeFilter(state: FiltersList, action: PayloadAction<IFilter>) {
-      // Something is going wrong, most likely because of the white space in the type
-      let filterFunction = (item: IFilter) => {
-        return (
-          item.type !== action.payload.type &&
-          item.value !== action.payload.value
-        );
-      };
+    removeFilter: (state: FiltersList, action: PayloadAction<IFilter>) => {
+      const { type, value } = action.payload;
 
-      state.filters = state.filters.filter(filterFunction);
+      const filterIndex = state.filters.findIndex(
+        (item) => item.type === type && item.value === value
+      );
+
+      state.filters = [
+        ...state.filters.slice(0, filterIndex),
+        ...state.filters.slice(filterIndex + 1),
+      ];
     },
   },
 });

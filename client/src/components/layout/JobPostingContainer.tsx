@@ -21,8 +21,10 @@ const JobPostingContainer = () => {
                 </div>
                 <div className="job-posting-container-object">
                     <Job
+                        jobs={jobs}
                         key={jobShownId}
                         jobId={jobShownId ? jobShownId : jobs[0]._id!}
+                        setJobShownId={setJobShownId}
                     />
                 </div>
             </div>
