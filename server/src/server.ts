@@ -1,7 +1,7 @@
 require("dotenv").config();
 require("express-async-errors"); // Add this for unexpected async events
 
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import connectDB from "../config/connectDB";
 import mongoose from "mongoose";
 import { logEvents, logger } from "../middleware/logEvents";
@@ -26,6 +26,8 @@ app.use("/", require("../routes/root"));
 
 // For the jobs, use job routes
 app.use("/jobs", require("../routes/jobRoutes"));
+
+app.use("/auth", require("../routes/authRoutes"));
 
 // Catch every wrong path
 app.all("*", (req, res) => {
