@@ -8,6 +8,7 @@ export interface IJob {
 	jobStatus: Boolean;
 	jobLink: string;
 	contributor?: string;
+	avatar_url?: string;
 }
 
 const jobSchema = new Schema<IJob>({
@@ -40,6 +41,10 @@ const jobSchema = new Schema<IJob>({
 		required: false,
 		default: "Anonymous",
 		immutable: true,
+	},
+	avatar_url: {
+		type: String,
+		required: false,
 	},
 });
 

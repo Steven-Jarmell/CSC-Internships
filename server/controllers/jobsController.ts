@@ -29,6 +29,7 @@ const createNewJob = async (req: Request, res: Response) => {
         jobStatus,
         jobLink,
         contributor,
+        avatar_url,
     }: IJob = req.body;
 
     // Confirm the data
@@ -68,6 +69,7 @@ const createNewJob = async (req: Request, res: Response) => {
               jobStatus,
               jobLink,
               contributor,
+              avatar_url
           }
         : {
               companyName,
@@ -76,6 +78,7 @@ const createNewJob = async (req: Request, res: Response) => {
               sponsorshipStatus,
               jobStatus,
               jobLink,
+              avatar_url
           };
 
     const job = await Job.create(jobObject);

@@ -3,6 +3,7 @@ import { useDeleteJobMutation, useGetJobsQuery, IJob } from "./jobApiSlice";
 import "../../styles/job.css";
 import EditJobForm from "./EditJobForm";
 import { useAppDispatch } from "../../app/hooks";
+import User from "../user/User";
 
 type Props = {
     jobs: IJob[];
@@ -92,8 +93,9 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
 			<a className="job-link" href={job?.jobLink}>
 				Apply
 			</a>
-			<p className="job-contributor">
-				<b>Added By:</b> {job?.contributor}
+			<p className="job-contributor"> 
+				<b>Added By: </b>
+				<User login={job?.contributor!} avatar_url={job?.avatar_url!} />
 			</p>
 			<button onClick={onDeleteJobClicked}>Delete</button>
 			<button onClick={onEditJobClicked}>Edit</button>

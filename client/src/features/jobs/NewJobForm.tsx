@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddNewJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
+import { useAppSelector } from "../../app/hooks";
+import { getUser } from "../user/userSlice";
+import User from "../user/User";
 
 type Props = {
     toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,13 +13,17 @@ const NewJobForm = ({ toggleModal }: Props) => {
     const [addNewJob, { isLoading, isSuccess, isError, error }] =
         useAddNewJobMutation();
 
+    const user = useAppSelector(getUser);
+
     const [companyName, setCompanyName] = useState<string>("");
     const [jobDescription, setJobDescription] = useState<string>("");
     const [locations, setLocations] = useState<string[]>([""]);
     const [sponsorshipStatus, setSponsorshipStatus] = useState<boolean>(false);
     const [jobStatus, setJobStatus] = useState<boolean>(false);
     const [jobLink, setJobLink] = useState<string>("");
-    const [contributor, setContributor] = useState<string>("");
+    const [contributor, setContributor] = useState<string>(user.login);
+    const [anonymous, setAnonymous] = useState<boolean>(false);
+    const [avatar_url, setAvatar_url] = useState<string>(user.avatar_url);
 
     const canSave =
         [
@@ -26,6 +33,16 @@ const NewJobForm = ({ toggleModal }: Props) => {
             jobLink,
             contributor,
         ].every(Boolean) && !isLoading;
+
+    useEffect(() => {
+        if (anonymous) {
+            setContributor("Anonymous");
+            setAvatar_url('');
+        } else {
+            setContributor(user.login);
+            setAvatar_url(user.avatar_url);
+        }
+    }, [anonymous])
 
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -38,17 +55,9 @@ const NewJobForm = ({ toggleModal }: Props) => {
                 jobStatus,
                 jobLink,
                 contributor,
+                avatar_url,
             });
         }
-
-        setCompanyName("");
-        setJobDescription("");
-        setLocations([""]);
-        setSponsorshipStatus(false);
-        setJobStatus(false);
-        setJobLink("");
-        setContributor("");
-
         toggleModal(false);
     };
 
@@ -92,8 +101,8 @@ const NewJobForm = ({ toggleModal }: Props) => {
         setJobLink(e.target.value);
     };
 
-    const onContributorChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setContributor(e.target.value);
+    const onAnonymousChanged = () => {
+        setAnonymous(!anonymous);
     };
 
     const content = (
@@ -204,18 +213,11 @@ const NewJobForm = ({ toggleModal }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    <label className="form-label" htmlFor="contributor">
-                        Contributor (Will need to change once github login
-                        implemented):
-                    </label>
+                    Remain Anonymous
                     <input
-                        className="form-label"
-                        id="contributor"
-                        name="contributor"
-                        type="text"
-                        autoComplete="off"
-                        value={contributor}
-                        onChange={onContributorChanged}
+                        type="checkbox"
+                        checked={anonymous}
+                        onChange={onAnonymousChanged}
                     />
                 </div>
             </form>

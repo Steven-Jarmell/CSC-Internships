@@ -9,6 +9,7 @@ export interface IJob {
 	jobStatus: boolean;
 	jobLink: string;
 	contributor?: string;
+	avatar_url?: string;
 }
 
 export const jobApiSlice = apiSlice.injectEndpoints({
