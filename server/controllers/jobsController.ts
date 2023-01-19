@@ -130,7 +130,7 @@ const updateJob = async (req: Request, res: Response) => {
     const job = await Job.findById(_id).exec();
 
     if (!job) {
-        return res.status(400).json({ message: "Note not found" });
+        return res.status(400).json({ message: "Job not found" });
     }
 
     // Check if this will cause a duplicate company to occur

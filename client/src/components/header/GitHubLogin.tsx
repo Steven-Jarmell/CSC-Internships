@@ -69,7 +69,7 @@ const GitHubLogin = () => {
                     login: data.login,
                     html_url: data.html_url,
                     avatar_url: data.avatar_url,
-                } as IUser))
+                } as IUser));
             });
     }
 

@@ -29,6 +29,8 @@ app.use("/jobs", require("../routes/jobRoutes"));
 
 app.use("/auth", require("../routes/authRoutes"));
 
+app.use("/user", require("../routes/userRoutes"));
+
 // Catch every wrong path
 app.all("*", (req, res) => {
 	res.status(404);
