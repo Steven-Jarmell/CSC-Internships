@@ -93,10 +93,10 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
 			<a className="job-link" href={job?.jobLink}>
 				Apply
 			</a>
-			<p className="job-contributor"> 
+			<div className="job-contributor"> 
 				<b>Added By: </b>
 				<User login={job?.contributor!} avatar_url={job?.avatar_url!} />
-			</p>
+			</div>
 			<button onClick={onDeleteJobClicked}>Delete</button>
 			<button onClick={onEditJobClicked}>Edit</button>
 		</div>

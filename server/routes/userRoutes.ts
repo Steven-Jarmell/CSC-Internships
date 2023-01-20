@@ -1,18 +1,18 @@
 import express, { Router } from "express";
 import {
-	getAllJobs,
-	createNewJob,
-	updateJob,
-	deleteJob,
-} from "../controllers/jobsController";
+	getUser,
+	createNewUser,
+	updateUser,
+	deleteUser,
+} from "../controllers/userController";
 
 const router: Router = express.Router();
 
 router
 	.route("/")
-	.get(getAllJobs)
-	.post(createNewJob)
-	.patch(updateJob)
-	.delete(deleteJob);
+	.get(getUser)
+	.post(createNewUser)
+	.patch(updateUser)
+	.delete(deleteUser);
 
 module.exports = router;

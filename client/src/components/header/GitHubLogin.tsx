@@ -1,7 +1,7 @@
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/githubLogin.component.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { addUser, removeUser, IUser } from "../../features/user/userSlice";
 import User from "../../features/user/User";
@@ -55,7 +55,7 @@ const GitHubLogin = () => {
         await fetch("http://localhost:5000/auth/getUserData", {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
+                Authorization: "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
             },
         })
             .then((res) => {
@@ -64,14 +64,44 @@ const GitHubLogin = () => {
             .then((data) => {
                 console.log(data);
                 setUserData(data);
-                dispatch(addUser({
-                    id: data.id,
-                    login: data.login,
-                    html_url: data.html_url,
-                    avatar_url: data.avatar_url,
-                } as IUser));
             });
     }
+
+    useEffect(() => {
+        async function getUserRoles() {
+            await fetch(`http://localhost:5000/user?id=${userData.id}`,
+            {
+                method: "GET",
+            }       
+                ).then((res) => {
+                    return res.json();
+                }).then((data) => {
+                    console.log(data);
+                    if (data) {
+                        dispatch(
+                            addUser({
+                                id: userData.id,
+                                login: userData.login,
+                                html_url: userData.html_url,
+                                avatar_url: userData.avatar_url,
+                                roles: data.roles,
+                            } as IUser)
+                        );
+                    } else {
+                        dispatch(
+                            addUser({
+                                id: userData.id,
+                                login: userData.login,
+                                html_url: userData.html_url,
+                                avatar_url: userData.avatar_url,
+                                roles: ["User"],
+                            } as IUser)
+                        );
+                    }
+                });
+        }
+        if (userData.id) getUserRoles();
+    }, [userData]);
 
     useEffect(() => {
         async function getGitHubClientID() {
@@ -132,7 +162,10 @@ const GitHubLogin = () => {
             {localStorage.getItem("accessToken") ? (
                 <>
                     {Object.keys(userData).length > 0 ? (
-                        <User avatar_url={userData.avatar_url} login={userData.login} />
+                        <User
+                            avatar_url={userData.avatar_url}
+                            login={userData.login}
+                        />
                     ) : (
                         <></>
                     )}

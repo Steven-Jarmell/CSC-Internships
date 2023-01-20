@@ -7,13 +7,21 @@ import { Request, Response } from "express";
 // @route GET /user
 // @access Private
 const getUser = async (req: Request, res: Response) => {
-    const { id } = req.body;
+    const { query } = req;
+    const { id } = query;
+
+    if (!id) {
+        return res.json({
+            success: false,
+            message: "Error: No id",
+        });
+    }
 
     if (!id) {
         return res.status(400).json({ message: "No ID received" });
     }
 
-    const user = await User.findOne(id).exec();
+    const user = await User.findOne({id}).exec();
 
     if (!user) {
         return res.status(400).json({ message: "No user found" });
@@ -97,12 +105,12 @@ const updateUser = async (req: Request, res: Response) => {
 // @route DELETE /user
 // @access Private
 const deleteUser = async (req: Request, res: Response) => {
-    const { _id }: { _id: string } = req.body;
-    if (!_id) {
+    const { id }: { id: string } = req.body;
+    if (!id) {
         return res.status(400).json({ message: "User id required" });
     }
 
-    const user = await User.findById(_id).exec();
+    const user = await User.findById(id).exec();
 
     if (!user) {
         return res.status(400).json({ message: "User not found " });

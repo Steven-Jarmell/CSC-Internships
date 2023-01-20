@@ -8,6 +8,7 @@ export type IUser = {
     login: string;
     html_url: string;
     avatar_url: string;
+    roles: string[];
 };
 
 // Define the initial state using that type
@@ -16,6 +17,7 @@ const initialState: IUser = {
     login: "",
     html_url: "",
     avatar_url: "",
+    roles: [""],
 };
 
 const userSlice = createSlice({
@@ -23,18 +25,19 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         addUser(state: IUser, action: PayloadAction<IUser>) {
-            const { id, login, html_url, avatar_url } = action.payload;
-
+            const { id, login, html_url, avatar_url, roles } = action.payload;
             state.id = id;
             state.login = login;
             state.html_url = html_url;
             state.avatar_url = avatar_url;
+            state.roles = roles;
         },
         removeUser: (state: IUser) => {
             state.id = initialState.id;
             state.login = initialState.login;
             state.html_url = initialState.html_url;
             state.avatar_url = initialState.avatar_url;
+            state.roles = initialState.roles;
         },
     },
 });
