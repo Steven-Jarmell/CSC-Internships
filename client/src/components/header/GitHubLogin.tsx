@@ -2,9 +2,15 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/githubLogin.component.css";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
-import { addUser, removeUser, IUser } from "../../features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    addUser,
+    removeUser,
+    IUser,
+    getUser,
+} from "../../features/user/userSlice";
 import User from "../../features/user/User";
+import { Link } from "react-router-dom";
 
 // Need to refactor this to use http only cookies instead of local storage
 
@@ -69,34 +75,29 @@ const GitHubLogin = () => {
 
     useEffect(() => {
         async function getUserRoles() {
-            await fetch(`http://localhost:5000/user?id=${userData.id}`,
-            {
+            await fetch(`http://localhost:5000/user?id=${userData.id}`, {
                 method: "GET",
-            }       
-                ).then((res) => {
+            })
+                .then((res) => {
                     return res.json();
-                }).then((data) => {
-                    console.log(data);
+                })
+                .then((data) => {
                     if (data) {
-                        dispatch(
-                            addUser({
-                                id: userData.id,
-                                login: userData.login,
-                                html_url: userData.html_url,
-                                avatar_url: userData.avatar_url,
-                                roles: data.roles,
-                            } as IUser)
-                        );
+                        dispatch(addUser({
+                            id: userData.id,
+                            login: userData.login,
+                            html_url: userData.html_url,
+                            avatar_url: userData.avatar_url,
+                            roles: data.roles,
+                        } as IUser));
                     } else {
-                        dispatch(
-                            addUser({
-                                id: userData.id,
-                                login: userData.login,
-                                html_url: userData.html_url,
-                                avatar_url: userData.avatar_url,
-                                roles: ["User"],
-                            } as IUser)
-                        );
+                        dispatch(addUser({
+                            id: userData.id,
+                            login: userData.login,
+                            html_url: userData.html_url,
+                            avatar_url: userData.avatar_url,
+                            roles: ["User"],
+                        } as IUser));
                     }
                 });
         }
