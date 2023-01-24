@@ -9,6 +9,7 @@ export interface IJob {
 	jobLink: string;
 	contributor?: string;
 	avatar_url?: string;
+	published: Boolean;
 }
 
 const jobSchema = new Schema<IJob>({
@@ -46,6 +47,11 @@ const jobSchema = new Schema<IJob>({
 		type: String,
 		required: false,
 	},
+	published: {
+		type: Boolean,
+		required: true,
+		default: false,
+	}
 });
 
 export default model<IJob>("Job", jobSchema);
