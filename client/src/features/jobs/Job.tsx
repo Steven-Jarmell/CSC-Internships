@@ -35,7 +35,7 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
             isSuccess: isDelSuccess,
             isError: isDelError,
             isLoading: isDelLoading,
-            error: delerror,
+            error: delError,
         },
     ] = useDeleteJobMutation();
 

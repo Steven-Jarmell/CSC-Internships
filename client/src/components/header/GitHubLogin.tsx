@@ -68,7 +68,6 @@ const GitHubLogin = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 setUserData(data);
             });
     }
@@ -117,8 +116,6 @@ const GitHubLogin = () => {
         const urlParams = new URLSearchParams(queryString);
         const codeParam = urlParams.get("code");
 
-        console.log(codeParam);
-
         // Set the href back to /
         window.history.pushState({}, "", "/");
 
@@ -134,7 +131,6 @@ const GitHubLogin = () => {
                         return res.json();
                     })
                     .then((data) => {
-                        console.log(data);
                         if (data.access_token) {
                             localStorage.setItem(
                                 "accessToken",

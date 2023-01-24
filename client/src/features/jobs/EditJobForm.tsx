@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IJob, useUpdateJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 import Job from "./Job";
+import useAuth from "../../hooks/useAuth";
 
 type Props = {
     job: IJob;
@@ -10,6 +11,8 @@ type Props = {
 };
 
 const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
+    const { isAdmin } = useAuth();
+
     const [updateJob, { isLoading }] = useUpdateJobMutation();
     const [companyName, setCompanyName] = useState<string>(job.companyName);
     const [jobDescription, setJobDescription] = useState<string>(
@@ -21,6 +24,9 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
     );
     const [jobStatus, setJobStatus] = useState<boolean>(job.jobStatus);
     const [jobLink, setJobLink] = useState<string>(job.jobLink);
+    const [published, setPublished] = useState<boolean>(
+        isAdmin ? job.published : false
+    );
 
     const canSave =
         [companyName, jobDescription, locations.length, jobLink].every(
@@ -38,6 +44,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                 sponsorshipStatus,
                 jobStatus,
                 jobLink,
+                published,
             }).then(() => {
                 const newJob = {
                     _id,
@@ -47,9 +54,10 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     sponsorshipStatus,
                     jobStatus,
                     jobLink,
-                    contributor: job.contributor
+                    contributor: job.contributor,
+                    published,
                 };
-                setReturnContent(<Job jobId={_id} updatedJob={newJob} />);
+                setReturnContent(<Job jobId={_id} updatedJob={newJob}/>);
             });
         }
     };
@@ -92,6 +100,10 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
 
     const onJobLinkChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
+    };
+
+    const onpublishedChanged = () => {
+        setPublished(!published);
     };
 
     const content = (
@@ -196,6 +208,18 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                         onChange={onJobLinkChanged}
                     />
                 </div>
+                {isAdmin && (
+                    <div className="form-input">
+                        <label className="form-label" htmlFor="jobStatus">
+                            Published:
+                            <input
+                                type="checkbox"
+                                checked={published}
+                                onChange={onpublishedChanged}
+                            />
+                        </label>
+                    </div>
+                )}
             </form>
         </>
     );

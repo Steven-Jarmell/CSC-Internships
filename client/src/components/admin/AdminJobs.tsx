@@ -1,8 +1,8 @@
 import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
-import JobsList from "../../features/jobs/JobsList";
 import "../../styles/jobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import { useState } from "react";
+import UnpublishedJobsList from "./UnpublishedJobsList";
 
 const AdminJobs = () => {
     const { data: jobs, isSuccess, error } = useGetJobsQuery();
@@ -11,16 +11,17 @@ const AdminJobs = () => {
 
     // If it was successful, get the first job if it exists
     if (isSuccess) {
+        const unpublishedJobs = jobs?.filter((job) => !job.published);
         return (
             <div className="job-posting-container">
                 <div className="job-posting-container-object job-postings">
-                    <JobsList setJobShownId={setJobShownId} />
+                    <UnpublishedJobsList setJobShownId={setJobShownId} />
                 </div>
                 <div className="job-posting-container-object">
                     <Job
-                        jobs={jobs}
+                        jobs={unpublishedJobs}
                         key={jobShownId}
-                        jobId={jobShownId ? jobShownId : jobs[0]._id!}
+                        jobId={jobShownId ? jobShownId : unpublishedJobs[0] ? unpublishedJobs[0]._id! : ''}
                         setJobShownId={setJobShownId}
                     />
                 </div>
