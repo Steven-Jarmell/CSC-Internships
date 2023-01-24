@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import AdminLayout from "./components/admin/AdminLayout";
 import RequireAuth from "./components/auth/RequireAuth";
 import ContentLayout from "./components/layout/ContentLayout";
 import Layout from "./components/layout/Layout";
@@ -13,7 +14,7 @@ function App() {
 
                 {/* Protect the admin dashboard route */}
                 <Route element={<RequireAuth allowedRoles={["Admin"]} />} >
-                    <Route path="admin" element={<h1>Admin Dashboard</h1>} />
+                    <Route path="admin" element={<AdminLayout />} />
                 </Route>
             </Route>
         </Routes>
