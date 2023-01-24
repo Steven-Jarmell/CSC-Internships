@@ -44,6 +44,8 @@ const NewJobForm = ({ toggleModal }: Props) => {
         }
     }, [anonymous])
 
+    let published = false;
+
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (canSave) {
@@ -56,6 +58,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
                 jobLink,
                 contributor,
                 avatar_url,
+                published
             });
         }
         toggleModal(false);

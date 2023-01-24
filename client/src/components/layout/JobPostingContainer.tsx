@@ -13,6 +13,7 @@ const JobPostingContainer = () => {
 
     // If it was successful, get the first job if it exists
     if (isSuccess) {
+        const publishedJobs = jobs?.filter((job) => job.published);
         return (
             <div className="job-posting-container">
                 <div className="job-posting-container-object job-postings">
@@ -21,9 +22,9 @@ const JobPostingContainer = () => {
                 </div>
                 <div className="job-posting-container-object">
                     <Job
-                        jobs={jobs}
+                        jobs={publishedJobs}
                         key={jobShownId}
-                        jobId={jobShownId ? jobShownId : jobs[0]._id!}
+                        jobId={jobShownId ? jobShownId : publishedJobs[0] ? publishedJobs[0]._id! : ''}
                         setJobShownId={setJobShownId}
                     />
                 </div>

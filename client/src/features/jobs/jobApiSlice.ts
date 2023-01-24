@@ -10,6 +10,7 @@ export interface IJob {
 	jobLink: string;
 	contributor?: string;
 	avatar_url?: string;
+	published: boolean;
 }
 
 export const jobApiSlice = apiSlice.injectEndpoints({

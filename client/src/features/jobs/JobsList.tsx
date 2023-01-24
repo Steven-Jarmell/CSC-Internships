@@ -54,6 +54,7 @@ const JobsList = ({ setJobShownId }: Props) => {
 		const newArray =
 			filters.length > 0
 				? jobs?.filter((job: IJob) => {
+                        if (!job.published) return false;
 						// For each job, check if there is a filter for it
 						for (let i = 0; i < filters.length; i++) {
 							if (
@@ -75,7 +76,7 @@ const JobsList = ({ setJobShownId }: Props) => {
 						}
 						return false;
 				  })
-				: jobs;
+				: jobs?.filter((job: IJob) => job.published);
 
 		return newArray!.map((job: IJob, i: number) => {
 			return (
