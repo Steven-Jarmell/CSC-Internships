@@ -1,0 +1,36 @@
+.layoutButtons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.layout-button {
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 22px;
+}
+
+.layout-button:hover {
+    cursor: pointer;
+}
+
+.layout-filter-button {
+    background-color: var(--pitt-blue);
+}
+
+.layout-filter-button:hover {
+    border: 2px solid var(--pitt-yellow);
+}
+
+.layout-add-button {
+    background-color: var(--pitt-yellow);
+}
+
+.layout-add-button:hover {
+    border: 2px solid var(--pitt-blue);
+}

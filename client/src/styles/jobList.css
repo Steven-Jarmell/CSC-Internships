@@ -1,0 +1,21 @@
+.joblist-posting {
+    display: flex;
+    gap: 10px;
+    border: 2px solid var(--pitt-blue);
+    padding: 5px;
+    margin-top: 8px;
+    border-radius: 5px;
+    background-color: var(--job-card-background-color);
+    height: 80px;
+    align-items: center;
+}
+
+.joblist-container {
+    width: 100%;
+    height: 100%;
+    border-left: 1px solid var(--pitt-blue);
+    border-bottom: 1px solid var(--pitt-blue);
+    border-radius: 0px 0px 0px 5px;
+    min-height: 0;
+    overflow: auto;
+}

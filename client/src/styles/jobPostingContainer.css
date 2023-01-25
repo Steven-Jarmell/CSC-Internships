@@ -1,0 +1,22 @@
+.job-posting-container {
+    width: 80%;
+    justify-content: center;
+    display: flex;
+}
+
+.job-posting-container-object {
+    width: 50%;
+    height: 70vh; 
+}
+
+.job-postings {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-displayed {
+    border-radius: 0px 5px 5px 0px;
+    background-color: var(--job-card-background-color);
+    border: 1px solid var(--pitt-blue);
+    overflow: auto;
+}

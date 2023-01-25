@@ -1,0 +1,16 @@
+.filter-list-container {
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: flex;
+    gap: 8px;
+    padding: 0px 8px;
+    flex-shrink: 0;
+    background-color: var(--pitt-blue);
+    height: 50px;
+    color: white;
+    border-radius: 5px 0px 0px 0px;
+}
+
+.filter-list-title {
+    
+}
