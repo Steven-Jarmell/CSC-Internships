@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../app/hooks";
 import { getFilters } from "./filterSlice";
-import '../../styles/filterList.component.css'
+import "../../styles/FilterList.component.css";
 import Filter from "./Filter";
 
 const FilterList = () => {
@@ -10,11 +10,13 @@ const FilterList = () => {
     // Return a list of filters
     return (
         <div className="filter-list-container">
-            {filters.length > 0 && <h3>Filters:</h3>}
-            {filters.length === 0 && <h3>No filters</h3>}
+            <div className="filter-list-title">
+                {filters.length > 0 && <h3>Filters:</h3>}
+                {filters.length === 0 && <h3>No filters</h3>}
+            </div>
             <>
                 {filters.map((filter, i) => {
-                    return <Filter key={i} filter={filter} />
+                    return <Filter key={i} filter={filter} />;
                 })}
             </>
         </div>

@@ -8,6 +8,7 @@
     border-radius: 5px;
     height: 45px;
     cursor: pointer;
+    gap: 10px;
 }
 
 .github-logo {

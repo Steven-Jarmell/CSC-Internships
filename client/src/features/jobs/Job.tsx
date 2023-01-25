@@ -71,7 +71,7 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
 
     const content = (
         <div className="job-container">
-            <h1 className="job-name">{job?.companyName}</h1>
+            <p className="job-name">{job?.companyName}</p>
             <p className="job-description">
                 <b>Description:</b> {job?.jobDescription}
             </p>
@@ -88,13 +88,13 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
                 })}
             </ul>
             <p className="job-sponsorship">
-                <b>Sponsorship:</b>
+                <b>Sponsorship: </b>
                 {job?.sponsorshipStatus
-                    ? "Sponsorship Available"
-                    : "Sponsorship Not Available"}
+                    ? "Available"
+                    : "Not Available"}
             </p>
             <p className="job-status">
-                <b>Status:</b> {job?.jobStatus ? "Job Open" : "Job Closed"}
+                <b>Status: </b> {job?.jobStatus ? "Job Open" : "Job Closed"}
             </p>
             <a className="job-link" href={job?.jobLink}>
                 Apply

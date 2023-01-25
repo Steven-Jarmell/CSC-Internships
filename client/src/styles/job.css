@@ -7,7 +7,10 @@
 }
 
 .job-name {
+    box-sizing: border-box;
     text-align: center;
+    font-size: 40px;
+    margin: 0;
 }
 
 .job-description {
@@ -29,15 +32,26 @@
 }
 
 .job-link {
-    padding: 10px 20px;
     text-decoration: none;
-    background-color: red;
+    background-color: var(--pitt-yellow);
+    color: black;
     border-radius: 5px;
-    display: block;
-    width: min-content;
+    display: flex;;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 50px;
     margin-left: auto;
     margin-right: auto;
+    font-size: 22px;
 }
 
 .job-contributor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job-contributor b {
+    margin-right: 8px
 }

@@ -1,8 +1,7 @@
 import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
 import JobsList from "../../features/jobs/JobsList";
-import "../../styles/jobPostingContainer.css";
+import "../../styles/JobPostingContainer.css";
 import Job from "../../features/jobs/Job";
-import Filter from "./Filter";
 import { useState } from "react";
 import FilterList from "../../features/filter/FilterList";
 
@@ -20,7 +19,7 @@ const JobPostingContainer = () => {
                     <FilterList />
                     <JobsList setJobShownId={setJobShownId} />
                 </div>
-                <div className="job-posting-container-object">
+                <div className="job-posting-container-object job-displayed">
                     <Job
                         jobs={publishedJobs}
                         key={jobShownId}

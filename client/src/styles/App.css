@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+
 html,
 body {
   margin: 0;
@@ -5,4 +7,12 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+:root {
+  --pitt-blue: #003594;
+  --pitt-yellow: #EBBF65;
+  --layout-background-color: #F2F2F2;
+  --job-card-background-color: #FFFFFF;
 }
