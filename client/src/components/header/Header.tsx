@@ -19,7 +19,7 @@ const Header = () => {
             <div className="header-buttons">
                 <ThemeButton />
                 {user.roles.includes("Admin") ? (
-                    <Link to="/admin">Admin</Link>
+                    <Link className="header-admin-link" to="/admin">Admin</Link>
                 ) : (
                     <></>
                 )}

@@ -20,3 +20,16 @@
     text-decoration: none;
     color: white;
 }
+
+.github-logout-button {
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 3px 5px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.github-logout-button:hover {
+    background-color: black;
+    color: white;
+}

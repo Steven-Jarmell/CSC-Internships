@@ -5,4 +5,5 @@
     align-items: center;
     gap: 10px;
     background-color: var(--layout-background-color);
+    flex: 1;
 }

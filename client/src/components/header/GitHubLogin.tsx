@@ -167,6 +167,7 @@ const GitHubLogin = () => {
                         <></>
                     )}
                     <button
+                        className="github-logout-button"
                         onClick={() => {
                             localStorage.removeItem("accessToken");
                             dispatch(removeUser());
