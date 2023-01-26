@@ -104,10 +104,10 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
                 <User login={job?.contributor!} avatar_url={job?.avatar_url!} />
             </div>
             {isAdmin && (
-                <>
-                    <button onClick={onDeleteJobClicked}>Delete</button>
-                    <button onClick={onEditJobClicked}>Edit</button>
-                </>
+                <div className="job-change-buttons">
+                    <button className="job-delete-button" onClick={onDeleteJobClicked}>Delete</button>
+                    <button className="job-edit-button" onClick={onEditJobClicked}>Edit</button>
+                </div>
             )}
         </div>
     );

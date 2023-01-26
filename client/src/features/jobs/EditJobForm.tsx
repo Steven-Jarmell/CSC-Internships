@@ -57,7 +57,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     contributor: job.contributor,
                     published,
                 };
-                setReturnContent(<Job jobId={_id} updatedJob={newJob}/>);
+                setReturnContent(<Job jobId={_id} updatedJob={newJob} />);
             });
         }
     };
@@ -108,25 +108,21 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
 
     const content = (
         <>
-            <form className="form" onSubmit={onSaveJobClicked}>
-                <div className="form-input form-save-container">
-                    <h2 className="form-save-title">Edit Job</h2>
-                    <div className="=form-save-button">
-                        <button
-                            className="form-button"
-                            title="Save"
-                            disabled={!canSave}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
+            <form className="form form-edit-job" onSubmit={onSaveJobClicked}>
+                <h2 className="form-title">Edit Job</h2>
+                <button
+                    className="form-button form-save-button"
+                    title="Save"
+                    disabled={!canSave}
+                >
+                    Save
+                </button>
                 <div className="form-input">
                     <label className="form-label" htmlFor="companyName">
                         Company Name:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="companyName"
                         name="companyName"
                         type="text"
@@ -140,7 +136,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                         Job Description:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobDescription"
                         name="jobDescription"
                         type="text"
@@ -150,34 +146,42 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    {locations.map((location, i) => (
-                        <div className="location" key={i}>
-                            <input
-                                type="text"
-                                placeholder={`Location #${i + 1} name`}
-                                value={location}
-                                onChange={onLocationNameChange(i)}
-                            />
-                            <button
-                                type="button"
-                                onClick={onLocationRemoved(i)}
-                            >
-                                -
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="add-location-btn"
-                        type="button"
-                        onClick={onLocationAdded}
-                    >
-                        Add Location
-                    </button>
+                    <label className="form-label" htmlFor="jobLocations">
+                        Job Location(s):
+                    </label>
+                    <div>
+                        {locations.map((location, i) => (
+                            <div className="form-location" key={i}>
+                                <input
+                                    className="form-text-input"
+                                    type="text"
+                                    placeholder={`Location #${i + 1} name`}
+                                    value={location}
+                                    onChange={onLocationNameChange(i)}
+                                />
+                                <button
+                                    className="form-delete-location-button"
+                                    type="button"
+                                    onClick={onLocationRemoved(i)}
+                                >
+                                    -
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            className="form-button"
+                            type="button"
+                            onClick={onLocationAdded}
+                        >
+                            Add Location
+                        </button>
+                    </div>
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="sponsorshipStatus">
                         Sponsorship
                         <input
+                            className="form-checkbox-input"
                             type="checkbox"
                             checked={sponsorshipStatus}
                             onChange={onSponsorshipStatusChanged}
@@ -187,19 +191,20 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobStatus">
                         Job Status
-                        <input
-                            type="checkbox"
-                            checked={jobStatus}
-                            onChange={onJobStatusChanged}
-                        />
                     </label>
+                    <input
+                        className="form-checkbox-input"
+                        type="checkbox"
+                        checked={jobStatus}
+                        onChange={onJobStatusChanged}
+                    />
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobLink">
                         Job Link:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobLink"
                         name="jobLink"
                         type="text"
@@ -213,6 +218,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                         <label className="form-label" htmlFor="jobStatus">
                             Published:
                             <input
+                                className="form-checkbox-input"
                                 type="checkbox"
                                 checked={published}
                                 onChange={onpublishedChanged}

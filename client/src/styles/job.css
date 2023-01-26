@@ -60,3 +60,16 @@
 .job-contributor b {
     margin-right: 8px;
 }
+
+.job-delete-button,
+.job-edit-button {
+    cursor: pointer;
+    padding: 5px 8px;
+}
+
+.job-change-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
