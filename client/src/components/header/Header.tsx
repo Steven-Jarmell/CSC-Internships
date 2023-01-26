@@ -18,11 +18,6 @@ const Header = () => {
             <h1 className="header-title">Summer 2023 Internships</h1>
             <div className="header-buttons">
                 <ThemeButton />
-                {user.roles.includes("Admin") ? (
-                    <Link className="header-admin-link" to="/admin">Admin</Link>
-                ) : (
-                    <></>
-                )}
                 <GitHubLogin />
             </div>
         </header>

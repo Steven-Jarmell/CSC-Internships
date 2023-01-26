@@ -1,0 +1,36 @@
+.user-modal-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 20vw;
+    padding: 10px;
+}
+
+.user-modal-content-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.user-modal-admin-link,
+.user-modal-logout-button {
+    font-size: 18px;
+    border: 2px solid var(--pitt-blue);
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--pitt-blue);
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.user-modal-admin-link:hover {
+    background-color: var(--pitt-blue);
+    color: #ffffff;
+}
+
+.user-modal-logout-button:hover {
+    background-color: var(--pitt-blue);
+    color: #ffffff;
+}

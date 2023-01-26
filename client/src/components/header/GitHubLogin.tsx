@@ -11,6 +11,8 @@ import {
 } from "../../features/user/userSlice";
 import User from "../../features/user/User";
 import { Link } from "react-router-dom";
+import Modal from "../modals/Modal";
+import UserModalContent from "../../features/user/UserModalContent";
 
 // Need to refactor this to use http only cookies instead of local storage
 
@@ -54,6 +56,7 @@ const GitHubLogin = () => {
     const [githubClientId, setGithubClientId] = useState<string>("");
     const [rerender, setRerender] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData>({} as UserData);
+    const [showUserModal, setShowUserModal] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
@@ -159,23 +162,16 @@ const GitHubLogin = () => {
             {localStorage.getItem("accessToken") ? (
                 <>
                     {Object.keys(userData).length > 0 ? (
-                        <User
-                            avatar_url={userData.avatar_url}
-                            login={userData.login}
-                        />
+                        <img src={userData.avatar_url} alt="avatar" className="user-avatar" onClick={() => setShowUserModal(true)} />
                     ) : (
                         <></>
                     )}
-                    <button
-                        className="github-logout-button"
-                        onClick={() => {
-                            localStorage.removeItem("accessToken");
-                            dispatch(removeUser());
-                            setRerender(!rerender);
-                        }}
-                    >
-                        Log out
-                    </button>
+                    {showUserModal ? (
+                        <Modal
+                            toggleModal={() => setShowUserModal(false)}
+                            content={<UserModalContent login={userData.login} setRerender={setRerender} rerender={rerender}/>}
+                        />
+                    ) : null}
                 </>
             ) : (
                 <div
