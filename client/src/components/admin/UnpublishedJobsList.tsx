@@ -1,6 +1,5 @@
 import { IJob, useGetJobsQuery } from "../../features/jobs/jobApiSlice";
 import "../../styles/jobList.css";
-import { useAppSelector } from "../../app/hooks";
 
 type Props = {
 	setJobShownId: React.Dispatch<React.SetStateAction<string>>;

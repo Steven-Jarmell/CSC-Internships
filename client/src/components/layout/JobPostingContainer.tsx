@@ -10,9 +10,22 @@ const JobPostingContainer = () => {
 
     const [jobShownId, setJobShownId] = useState<string>("");
 
+    const emptyLayout = (
+        <div className="job-posting-container">
+            <div className="job-posting-container-object job-postings">
+                <FilterList />
+                <div className="joblist-container"></div>
+            </div>
+            <div className="job-posting-container-object job-displayed">
+                <p className="job-posting-null">No Jobs To Display</p>
+            </div>
+        </div>
+    );
+
     // If it was successful, get the first job if it exists
     if (isSuccess) {
         const publishedJobs = jobs?.filter((job) => job.published);
+        if (publishedJobs?.length === 0) return emptyLayout;
         return (
             <div className="job-posting-container">
                 <div className="job-posting-container-object job-postings">
@@ -23,28 +36,20 @@ const JobPostingContainer = () => {
                     <Job
                         jobs={publishedJobs}
                         key={jobShownId}
-                        jobId={jobShownId ? jobShownId : publishedJobs[0] ? publishedJobs[0]._id! : ''}
+                        jobId={
+                            jobShownId
+                                ? jobShownId
+                                : publishedJobs[0]
+                                ? publishedJobs[0]._id!
+                                : ""
+                        }
                         setJobShownId={setJobShownId}
                     />
                 </div>
             </div>
         );
     } else if (error) {
-        if ("status" in error) {
-            // you can access all properties of `FetchBaseQueryError` here
-            const errMsg =
-                "error" in error ? error.error : JSON.stringify(error.data);
-
-            return (
-                <div>
-                    <div>An error has occurred:</div>
-                    <div>{errMsg}</div>
-                </div>
-            );
-        } else {
-            // you can access all properties of `SerializedError` here
-            return <div>{error.message}</div>;
-        }
+        return emptyLayout;
     } else {
         return <h1>Loading...</h1>;
     }

@@ -20,3 +20,14 @@
     border: 1px solid var(--pitt-blue);
     overflow: auto;
 }
+
+.job-posting-null {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--pitt-blue);
+}

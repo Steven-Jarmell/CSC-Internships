@@ -9,9 +9,21 @@ const AdminJobs = () => {
 
     const [jobShownId, setJobShownId] = useState<string>("");
 
+    const emptyLayout = (
+        <div className="job-posting-container">
+            <div className="job-posting-container-object job-postings">
+                <div className="joblist-container"></div>
+            </div>
+            <div className="job-posting-container-object job-displayed">
+                <p className="job-posting-null">No Jobs To Display</p>
+            </div>
+        </div>
+    );
+
     // If it was successful, get the first job if it exists
     if (isSuccess) {
         const unpublishedJobs = jobs?.filter((job) => !job.published);
+        if (unpublishedJobs?.length === 0) return emptyLayout;
         return (
             <div className="job-posting-container">
                 <div className="job-posting-container-object job-postings">
@@ -28,21 +40,7 @@ const AdminJobs = () => {
             </div>
         );
     } else if (error) {
-        if ("status" in error) {
-            // you can access all properties of `FetchBaseQueryError` here
-            const errMsg =
-                "error" in error ? error.error : JSON.stringify(error.data);
-
-            return (
-                <div>
-                    <div>An error has occurred:</div>
-                    <div>{errMsg}</div>
-                </div>
-            );
-        } else {
-            // you can access all properties of `SerializedError` here
-            return <div>{error.message}</div>;
-        }
+        return emptyLayout;
     } else {
         return <h1>Loading...</h1>;
     }
