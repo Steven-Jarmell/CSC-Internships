@@ -52,7 +52,7 @@ const UnpublishedJobsList = ({ setJobShownId }: Props) => {
 			return (
 				<div
 					key={i}
-					className="joblist-posting"
+					className="admin-joblist-posting"
 					onClick={() => onJobCardClicked(job)}
 				>
 					<p>{job.companyName}</p>
@@ -65,7 +65,7 @@ const UnpublishedJobsList = ({ setJobShownId }: Props) => {
 
 	// If it was successful, map over the list and make job postings for each of them
 	if (isSuccess) {
-		return <div className="joblist-container">{jobsToDisplay()}</div>;
+		return <div className="admin-joblist-container">{jobsToDisplay()}</div>;
 	}
 
 	return content;

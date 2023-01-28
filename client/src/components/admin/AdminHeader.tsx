@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import '../../styles/AdminHeader.css'
 
 const AdminHeader = () => {
     return (
         <div className="admin-header-container">
-            <h1>Admin Dashboard</h1>
-            <Link to="/">Home</Link>
+            <p className="admin-header-title">Admin Dashboard</p>
+            <Link to="/" className="admin-header-home-link">Home</Link>
         </div>
     );
 }

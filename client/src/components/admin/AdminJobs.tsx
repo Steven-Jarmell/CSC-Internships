@@ -1,5 +1,5 @@
 import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
-import "../../styles/jobPostingContainer.css";
+import "../../styles/AdminJobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import { useState } from "react";
 import UnpublishedJobsList from "./UnpublishedJobsList";
@@ -10,12 +10,12 @@ const AdminJobs = () => {
     const [jobShownId, setJobShownId] = useState<string>("");
 
     const emptyLayout = (
-        <div className="job-posting-container">
-            <div className="job-posting-container-object job-postings">
-                <div className="joblist-container"></div>
+        <div className="admin-job-posting-container">
+            <div className="admin-job-posting-container-object admin-job-postings">
+                <div className="admin-joblist-container"></div>
             </div>
-            <div className="job-posting-container-object job-displayed">
-                <p className="job-posting-null">No Jobs To Display</p>
+            <div className="admin-job-posting-container-object admin-job-displayed">
+                <p className="admin-job-posting-null">No Jobs To Display</p>
             </div>
         </div>
     );
@@ -25,11 +25,11 @@ const AdminJobs = () => {
         const unpublishedJobs = jobs?.filter((job) => !job.published);
         if (unpublishedJobs?.length === 0) return emptyLayout;
         return (
-            <div className="job-posting-container">
-                <div className="job-posting-container-object job-postings">
+            <div className="admin-job-posting-container">
+                <div className="admin-job-posting-container-object admin-job-postings">
                     <UnpublishedJobsList setJobShownId={setJobShownId} />
                 </div>
-                <div className="job-posting-container-object">
+                <div className="admin-job-posting-container-object">
                     <Job
                         jobs={unpublishedJobs}
                         key={jobShownId}

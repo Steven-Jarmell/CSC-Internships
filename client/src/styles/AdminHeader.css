@@ -1,0 +1,29 @@
+.admin-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+    width: 100%;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0px 20px;
+}
+
+.admin-header-home-link {
+    text-decoration: none;
+    color: var(--pitt-blue);
+    border: 1px solid var(--pitt-blue);
+    border-radius: 5px;
+    padding: 4px 10px;
+}
+
+.admin-header-home-link:hover {
+    background-color: var(--pitt-blue);
+    color: white;
+}
+
+.admin-header-title {
+    background: linear-gradient(to right, var(--pitt-blue), var(--pitt-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
