@@ -8,6 +8,7 @@
     height: 80px;
     align-items: center;
     justify-content: space-between;
+    color: var(--text-color);
 }
 
 .joblist-container {

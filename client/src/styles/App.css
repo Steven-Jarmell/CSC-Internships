@@ -10,9 +10,33 @@ body {
   font-family: 'Titillium Web', sans-serif;
 }
 
-:root {
+body {
   --pitt-blue: #003594;
   --pitt-yellow: #EBBF65;
   --layout-background-color: #F2F2F2;
   --job-card-background-color: #FFFFFF;
+  --header-background-color: #FFFFFF;
+  --header-border-color: #000000;
+  --text-color: #000000;
+  --form-background-color: #FFFFFF;
+  --form-input-color: #FFFFFF;
 }
+
+body.dark-theme {
+  --layout-background-color: #121212;
+  --header-background-color: #101010;
+  --job-card-background-color: #1F1B24;
+  --header-border-color: #EBBF65;
+  --text-color: #ffffff;
+  --form-background-color: #1F1B24;
+  --form-input-color: #121212;
+}
+
+/*
+Dark Theme
+
+#1F1B24 -> card background
+#121212 -> layout/header background
+#101010 -> header backgroun
+Pitt Yellow for header border bottom, maybe make it blue in light mode and yellow dark mode
+*/

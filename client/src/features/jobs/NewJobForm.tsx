@@ -216,8 +216,12 @@ const NewJobForm = ({ toggleModal }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    Remain Anonymous
+                    <label className="form-label" htmlFor="jobAnonymous">
+                        Remain Anonymous:
+                    </label>
                     <input
+                        id="jobAnonymous"
+                        name="jobAnonymous"
                         className="form-checkbox-input"
                         type="checkbox"
                         checked={anonymous}

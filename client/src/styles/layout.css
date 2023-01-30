@@ -7,3 +7,8 @@
     background-color: var(--layout-background-color);
     flex: 1;
 }
+
+.layout-footer {
+    margin-top: auto;
+    color: var(--text-color);
+}

@@ -10,7 +10,7 @@ const Layout = () => {
             <div className="layout-container">
                 <LayoutButtons />
                 <JobPostingContainer />
-                <p style={{ marginTop: 'auto'}}>Made with ❤️ by Pitt CSC</p>
+                <p className="layout-footer">Made with ❤️ by Pitt CSC</p>
             </div>
         </>
     );

@@ -2,12 +2,8 @@ import PittLogo from "../../assets/pitt-logo.svg";
 import GitHubLogin from "./GitHubLogin";
 import ThemeButton from "./ThemeButton";
 import "../../styles/header.component.css";
-import { getUser } from "../../features/user/userSlice";
-import { useAppSelector } from "../../app/hooks";
-import { Link } from "react-router-dom";
 
 const Header = () => {
-    const user = useAppSelector(getUser);
     return (
         <header className="header-container">
             <img

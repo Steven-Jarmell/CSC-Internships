@@ -45,7 +45,7 @@
     padding: 0px 8px;
     flex-shrink: 0;
     height: 50px;
-    color: black;
+    color: var(--text-color);
     align-items: center;
     font-size: 20px;
 }
