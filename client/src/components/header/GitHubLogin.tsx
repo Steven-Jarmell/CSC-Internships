@@ -2,15 +2,11 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/githubLogin.component.css";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import {
     addUser,
-    removeUser,
     IUser,
-    getUser,
 } from "../../features/user/userSlice";
-import User from "../../features/user/User";
-import { Link } from "react-router-dom";
 import Modal from "../modals/Modal";
 import UserModalContent from "../../features/user/UserModalContent";
 
@@ -84,7 +80,8 @@ const GitHubLogin = () => {
                     return res.json();
                 })
                 .then((data) => {
-                    if (data) {
+                    // If the user has roles, add them to the user object
+                    if (data.roles) {
                         dispatch(addUser({
                             id: userData.id,
                             login: userData.login,
