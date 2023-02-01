@@ -36,3 +36,8 @@
     border-radius: 2px;
     cursor: pointer;
 }
+
+.modal {
+    max-width: 55vw;
+    height: auto;
+}

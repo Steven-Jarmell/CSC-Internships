@@ -4,14 +4,17 @@ import NewJobForm from "../../features/jobs/NewJobForm";
 import Modal from "../modals/Modal";
 import NewFilterForm from "../../features/filter/NewFilterForm";
 
-const LayoutButtons = () => {
-    const [showFilter, setShowFilter] = useState(false);
-    const [showAddJob, setShowAddJob] = useState(false);
+// This component contains the buttons for the layout and displays the modals if they are clicked
+const LayoutButtons = (): JSX.Element => {
+    const [showFilter, setShowFilter] = useState<boolean>(false);
+    const [showAddJob, setShowAddJob] = useState<boolean>(false);
 
+    // Method to the filter modal
     const openFilterModal = () => {
         setShowFilter(true);
     };
 
+    // Method to open the add job modal
     const openAddJobModal = () => {
         setShowAddJob(true);
     };

@@ -6,6 +6,7 @@ export interface IUser {
     roles: string[];
 }
 
+// Define the API endpoints for the user
 export const userApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getUser: builder.query<IUser, number>({

@@ -1,22 +1,22 @@
 import { useAppSelector } from "../app/hooks";
-import { getUser } from "../features/user/userSlice";
+import { getUser, IUser } from "../features/user/userSlice";
 
 const useAuth = () => {
-    const user = useAppSelector(getUser);
+    const user: IUser = useAppSelector(getUser);
 
-	let isAdmin = false;
-	let status = "User";
+    let isAdmin: boolean = false;
+    let status: string = "User";
 
-	if (user) {
-		const { login, roles } = user;
+    if (user) {
+        const { login, roles } = user;
 
-		isAdmin = roles.includes("Admin");
+        isAdmin = roles.includes("Admin");
 
-		if (isAdmin) status = "Admin";
+        if (isAdmin) status = "Admin";
 
-		return { login, roles, status, isAdmin };
-	}
+        return { login, roles, status, isAdmin };
+    }
 
-	return { login: "", roles: [], isAdmin, status };
+    return { login: "", roles: [], isAdmin, status };
 };
 export default useAuth;

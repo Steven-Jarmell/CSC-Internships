@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { IJob, useUpdateJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 import Job from "./Job";
@@ -10,10 +10,11 @@ type Props = {
     setReturnContent: React.Dispatch<React.SetStateAction<JSX.Element>>;
 };
 
+// This component is used to edit a job
 const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
-    const { isAdmin } = useAuth();
-
+    const { isAdmin } : { isAdmin: boolean } = useAuth();
     const [updateJob, { isLoading }] = useUpdateJobMutation();
+
     const [companyName, setCompanyName] = useState<string>(job.companyName);
     const [jobDescription, setJobDescription] = useState<string>(
         job.jobDescription
@@ -28,13 +29,17 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
         isAdmin ? job.published : false
     );
 
-    const canSave =
+    // Check if all fields are filled out and the updateJob mutation is not loading
+    const canSave: boolean =
         [companyName, jobDescription, locations.length, jobLink].every(
             Boolean
         ) && !isLoading;
 
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
+        // Prevent the page from refreshing
         e.preventDefault();
+
+        // Check if all fields are filled out and if they are, update the job
         if (canSave) {
             await updateJob({
                 _id,
@@ -46,6 +51,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                 jobLink,
                 published,
             }).then(() => {
+                // After it updates, set the return content to the updated job
                 const newJob = {
                     _id,
                     companyName,
@@ -57,7 +63,18 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     contributor: job.contributor,
                     published,
                 };
-                setReturnContent(<Job jobId={_id} updatedJob={newJob}/>);
+                setReturnContent(
+                    <Job
+                        jobId={_id}
+                        updatedJob={newJob}
+                        jobs={[]}
+                        setJobShownId={function (
+                            value: SetStateAction<string>
+                        ): void {
+                            throw new Error("Function not implemented.");
+                        }}
+                    />
+                );
             });
         }
     };
@@ -106,27 +123,23 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
         setPublished(!published);
     };
 
-    const content = (
+    const content: JSX.Element = (
         <>
-            <form className="form" onSubmit={onSaveJobClicked}>
-                <div className="form-input form-save-container">
-                    <h2 className="form-save-title">Edit Job</h2>
-                    <div className="=form-save-button">
-                        <button
-                            className="form-button"
-                            title="Save"
-                            disabled={!canSave}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
+            <form className="form form-edit-job" onSubmit={onSaveJobClicked}>
+                <h2 className="form-title">Edit Job</h2>
+                <button
+                    className="form-button form-save-button"
+                    title="Save"
+                    disabled={!canSave}
+                >
+                    Save
+                </button>
                 <div className="form-input">
                     <label className="form-label" htmlFor="companyName">
                         Company Name:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="companyName"
                         name="companyName"
                         type="text"
@@ -140,7 +153,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                         Job Description:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobDescription"
                         name="jobDescription"
                         type="text"
@@ -150,34 +163,42 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    {locations.map((location, i) => (
-                        <div className="location" key={i}>
-                            <input
-                                type="text"
-                                placeholder={`Location #${i + 1} name`}
-                                value={location}
-                                onChange={onLocationNameChange(i)}
-                            />
-                            <button
-                                type="button"
-                                onClick={onLocationRemoved(i)}
-                            >
-                                -
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="add-location-btn"
-                        type="button"
-                        onClick={onLocationAdded}
-                    >
-                        Add Location
-                    </button>
+                    <label className="form-label" htmlFor="jobLocations">
+                        Job Location(s):
+                    </label>
+                    <div>
+                        {locations.map((location, i) => (
+                            <div className="form-location" key={i}>
+                                <input
+                                    className="form-text-input"
+                                    type="text"
+                                    placeholder={`Location #${i + 1} name`}
+                                    value={location}
+                                    onChange={onLocationNameChange(i)}
+                                />
+                                <button
+                                    className="form-delete-location-button"
+                                    type="button"
+                                    onClick={onLocationRemoved(i)}
+                                >
+                                    -
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            className="form-button"
+                            type="button"
+                            onClick={onLocationAdded}
+                        >
+                            Add Location
+                        </button>
+                    </div>
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="sponsorshipStatus">
                         Sponsorship
                         <input
+                            className="form-checkbox-input"
                             type="checkbox"
                             checked={sponsorshipStatus}
                             onChange={onSponsorshipStatusChanged}
@@ -187,19 +208,20 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobStatus">
                         Job Status
-                        <input
-                            type="checkbox"
-                            checked={jobStatus}
-                            onChange={onJobStatusChanged}
-                        />
                     </label>
+                    <input
+                        className="form-checkbox-input"
+                        type="checkbox"
+                        checked={jobStatus}
+                        onChange={onJobStatusChanged}
+                    />
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobLink">
                         Job Link:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobLink"
                         name="jobLink"
                         type="text"
@@ -213,6 +235,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                         <label className="form-label" htmlFor="jobStatus">
                             Published:
                             <input
+                                className="form-checkbox-input"
                                 type="checkbox"
                                 checked={published}
                                 onChange={onpublishedChanged}

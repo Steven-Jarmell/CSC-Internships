@@ -1,13 +1,14 @@
 .joblist-posting {
     display: flex;
-    gap: 10px;
     border: 2px solid var(--pitt-blue);
-    padding: 5px;
+    padding: 5px 10px;
     margin-top: 8px;
     border-radius: 5px;
     background-color: var(--job-card-background-color);
     height: 80px;
     align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
 }
 
 .joblist-container {
@@ -19,3 +20,53 @@
     min-height: 0;
     overflow: auto;
 }
+
+.joblist-posting-name,
+.joblist-posting-locations-container,
+.joblist-posting-status {
+    font-size: 20px;
+}
+
+.joblist-posting-name {
+    width: fit-content;
+}
+
+.joblist-posting-locations-container {
+    overflow-x: auto;
+    flex: .6;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.joblist-posting-status {
+    flex: .15;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.joblist-locations {
+    white-space: nowrap;
+}
+
+.joblist-posting-status-symbol {
+    align-items: flex-end;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.joblist-posting-location-symbol {
+    height: 25px;
+    color: red;
+}
+
+.job-open {
+    background-color: rgb(74, 255, 74);
+}
+
+.job-closed {
+    background-color: red;
+}
+

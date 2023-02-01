@@ -1,4 +1,5 @@
 .theme-button {
     height: auto;
     width: 25px;
+    color: var(--text-color);
 }

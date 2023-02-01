@@ -9,6 +9,7 @@
     height: 50px;
     color: white;
     border-radius: 5px 0px 0px 0px;
+    align-items: center;
 }
 
 .filter-list-title {

@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { useAddNewJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 import { useAppSelector } from "../../app/hooks";
-import { getUser } from "../user/userSlice";
-import User from "../user/User";
+import { getUser, IUser } from "../user/userSlice";
 
 type Props = {
     toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NewJobForm = ({ toggleModal }: Props) => {
-    const [addNewJob, { isLoading, isSuccess, isError, error }] =
+const NewJobForm = ({ toggleModal }: Props): JSX.Element => {
+    const [addNewJob, { isLoading}] =
         useAddNewJobMutation();
 
-    const user = useAppSelector(getUser);
+    const user: IUser = useAppSelector(getUser);
 
     const [companyName, setCompanyName] = useState<string>("");
     const [jobDescription, setJobDescription] = useState<string>("");
@@ -25,7 +24,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
     const [anonymous, setAnonymous] = useState<boolean>(false);
     const [avatar_url, setAvatar_url] = useState<string>(user.avatar_url);
 
-    const canSave =
+    const canSave: boolean =
         [
             companyName,
             jobDescription,
@@ -34,20 +33,25 @@ const NewJobForm = ({ toggleModal }: Props) => {
             contributor,
         ].every(Boolean) && !isLoading;
 
+    // If the user is anonymous, set the contributor to anonymous and the avatar_url to an empty string
     useEffect(() => {
         if (anonymous) {
             setContributor("Anonymous");
-            setAvatar_url('');
+            setAvatar_url("");
         } else {
             setContributor(user.login);
             setAvatar_url(user.avatar_url);
         }
-    }, [anonymous])
+    }, [anonymous]);
 
-    let published = false;
+    let published: boolean = false;
 
+    // Handle the submission of the form
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
+        // Prevent the page from refreshing
         e.preventDefault();
+
+        // Check if all fields are filled out and if they are, add the new job
         if (canSave) {
             await addNewJob({
                 companyName,
@@ -58,9 +62,11 @@ const NewJobForm = ({ toggleModal }: Props) => {
                 jobLink,
                 contributor,
                 avatar_url,
-                published
+                published,
             });
         }
+
+        // Close the modal
         toggleModal(false);
     };
 
@@ -108,27 +114,23 @@ const NewJobForm = ({ toggleModal }: Props) => {
         setAnonymous(!anonymous);
     };
 
-    const content = (
+    const content: JSX.Element = (
         <>
             <form className="form" onSubmit={onSaveJobClicked}>
-                <div className="form-input form-save-container">
-                    <h2 className="form-save-title">New Job</h2>
-                    <div className="=form-save-button">
-                        <button
-                            className="form-button"
-                            title="Save"
-                            disabled={!canSave}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
+                <h2 className="form-title">New Job</h2>
+                <button
+                    className="form-button form-save-button"
+                    title="Save"
+                    disabled={!canSave}
+                >
+                    Save
+                </button>
                 <div className="form-input">
                     <label className="form-label" htmlFor="companyName">
                         Company Name:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="companyName"
                         name="companyName"
                         type="text"
@@ -142,7 +144,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
                         Job Description:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobDescription"
                         name="jobDescription"
                         type="text"
@@ -157,14 +159,16 @@ const NewJobForm = ({ toggleModal }: Props) => {
                     </label>
                     <div>
                         {locations.map((location, i) => (
-                            <div className="location" key={i}>
+                            <div className="form-location" key={i}>
                                 <input
+                                    className="form-text-input"
                                     type="text"
                                     placeholder={`Location #${i + 1} name`}
                                     value={location}
                                     onChange={onLocationNameChange(i)}
                                 />
                                 <button
+                                    className="form-delete-location-button"
                                     type="button"
                                     onClick={onLocationRemoved(i)}
                                 >
@@ -173,7 +177,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
                             </div>
                         ))}
                         <button
-                            className="add-location-btn"
+                            className="form-button"
                             type="button"
                             onClick={onLocationAdded}
                         >
@@ -184,29 +188,31 @@ const NewJobForm = ({ toggleModal }: Props) => {
                 <div className="form-input">
                     <label className="form-label" htmlFor="sponsorshipStatus">
                         Sponsorship
-                        <input
-                            type="checkbox"
-                            checked={sponsorshipStatus}
-                            onChange={onSponsorshipStatusChanged}
-                        />
                     </label>
+                    <input
+                        className="form-checkbox-input"
+                        type="checkbox"
+                        checked={sponsorshipStatus}
+                        onChange={onSponsorshipStatusChanged}
+                    />
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobStatus">
                         Job Status
-                        <input
-                            type="checkbox"
-                            checked={jobStatus}
-                            onChange={onJobStatusChanged}
-                        />
                     </label>
+                    <input
+                        className="form-checkbox-input"
+                        type="checkbox"
+                        checked={jobStatus}
+                        onChange={onJobStatusChanged}
+                    />
                 </div>
                 <div className="form-input">
                     <label className="form-label" htmlFor="jobLink">
                         Job Link:
                     </label>
                     <input
-                        className="form-label"
+                        className="form-text-input"
                         id="jobLink"
                         name="jobLink"
                         type="text"
@@ -216,8 +222,13 @@ const NewJobForm = ({ toggleModal }: Props) => {
                     />
                 </div>
                 <div className="form-input">
-                    Remain Anonymous
+                    <label className="form-label" htmlFor="jobAnonymous">
+                        Remain Anonymous:
+                    </label>
                     <input
+                        id="jobAnonymous"
+                        name="jobAnonymous"
+                        className="form-checkbox-input"
                         type="checkbox"
                         checked={anonymous}
                         onChange={onAnonymousChanged}

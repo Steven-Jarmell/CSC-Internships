@@ -2,8 +2,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    border-bottom: 1px solid black;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--header-border-color);
+    background-color: var(--header-background-color);
 }
 
 .header-pitt-logo {
@@ -12,7 +13,7 @@
 }
 
 .header-title {
-    
+    color: var(--text-color);
 }
 
 .header-buttons {
@@ -20,4 +21,17 @@
     gap: 10px;
     justify-content: center;
     align-items: center;
+}
+
+.header-admin-link {
+    text-decoration: none;
+    color: black;
+    border: 1px solid black;
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+
+.header-admin-link:hover {
+    background-color: black;
+    color: white;
 }

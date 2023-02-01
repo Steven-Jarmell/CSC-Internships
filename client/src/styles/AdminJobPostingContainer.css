@@ -1,0 +1,43 @@
+.admin-job-posting-container {
+    width: 75%;
+    justify-content: center;
+    display: flex;
+    border: 1px solid var(--pitt-blue);
+    border-radius: 5px;
+    flex: 1;
+    margin: 25px 0px;
+}
+
+.admin-job-posting-container-object {
+    width: 50%;
+}
+
+.admin-job-postings {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--pitt-blue)
+}
+
+.admin-job-posting-null {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--pitt-blue);
+}
+
+.admin-joblist-posting {
+    display: flex;
+    border: 2px solid var(--pitt-blue);
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background-color: var(--job-card-background-color);
+    height: 80px;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
+}

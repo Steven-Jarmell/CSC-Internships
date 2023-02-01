@@ -1,7 +1,5 @@
-const Footer = () => {
-    return (
-        <p>Made with ❤️</p>
-    )
-}
+const Footer = (): JSX.Element => {
+    return <p className="layout-footer">Made with ❤️</p>;
+};
 
 export default Footer;

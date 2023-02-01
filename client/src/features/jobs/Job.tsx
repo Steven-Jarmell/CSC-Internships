@@ -12,39 +12,43 @@ type Props = {
     setJobShownId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
+// This component is used to display a job
+const Job = ({
+    jobs,
+    jobId,
+    updatedJob,
+    setJobShownId,
+}: Props): JSX.Element => {
     // Query the jobs and select the specific job based on the id
     // Will want to update this in the future to keep a separate ID for all the posts with entityadapter
     // https://redux.js.org/tutorials/essentials/part-6-performance-normalization
 
+    // Query the jobs and select the specific job based on the id
     let { job } = useGetJobsQuery(undefined, {
         selectFromResult: ({ data }) => ({
             job: data?.find((job) => job._id === jobId),
         }),
     });
 
-    const { isAdmin } = useAuth();
+    // Get the deleteJob mutation method
+    const [deleteJob, { isSuccess: isDelSuccess, isLoading: isDelLoading }] =
+        useDeleteJobMutation();
 
+    const { isAdmin }: { isAdmin: boolean } = useAuth();
+
+    // If the job is updated, set the job to the updated job
     if (updatedJob) {
         job = updatedJob;
     }
 
-    const [
-        deleteJob,
-        {
-            isSuccess: isDelSuccess,
-            isError: isDelError,
-            isLoading: isDelLoading,
-            error: delError,
-        },
-    ] = useDeleteJobMutation();
-
+    // If the job is deleted, set the job to the first job in the list
     useEffect(() => {
         if (isDelSuccess || isDelLoading) {
             setJobShownId(jobs[0]._id!);
         }
     }, [jobs, isDelSuccess]);
 
+    // If the job is deleted, set the job to the first job in the list
     const onDeleteJobClicked = async () => {
         await deleteJob({ id: jobId }).then(() => {
             if (jobs.length > 1) {
@@ -59,6 +63,7 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
         });
     };
 
+    // Set the return content to the edit job form if the edit button is clicked
     const onEditJobClicked = async () => {
         setReturnContent(
             <EditJobForm
@@ -69,7 +74,7 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
         );
     };
 
-    const content = (
+    const content: JSX.Element = (
         <div className="job-container">
             <p className="job-name">{job?.companyName}</p>
             <p className="job-description">
@@ -89,9 +94,7 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
             </ul>
             <p className="job-sponsorship">
                 <b>Sponsorship: </b>
-                {job?.sponsorshipStatus
-                    ? "Available"
-                    : "Not Available"}
+                {job?.sponsorshipStatus ? "Available" : "Not Available"}
             </p>
             <p className="job-status">
                 <b>Status: </b> {job?.jobStatus ? "Job Open" : "Job Closed"}
@@ -104,10 +107,20 @@ const Job = ({ jobs, jobId, updatedJob, setJobShownId }: Props) => {
                 <User login={job?.contributor!} avatar_url={job?.avatar_url!} />
             </div>
             {isAdmin && (
-                <>
-                    <button onClick={onDeleteJobClicked}>Delete</button>
-                    <button onClick={onEditJobClicked}>Edit</button>
-                </>
+                <div className="job-change-buttons">
+                    <button
+                        className="job-delete-button"
+                        onClick={onDeleteJobClicked}
+                    >
+                        Delete
+                    </button>
+                    <button
+                        className="job-edit-button"
+                        onClick={onEditJobClicked}
+                    >
+                        Edit
+                    </button>
+                </div>
             )}
         </div>
     );
