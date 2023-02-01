@@ -3,10 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/githubLogin.component.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import {
-    addUser,
-    IUser,
-} from "../../features/user/userSlice";
+import { addUser, IUser } from "../../features/user/userSlice";
 import Modal from "../modals/Modal";
 import UserModalContent from "../../features/user/UserModalContent";
 
@@ -48,19 +45,20 @@ type UserData = {
     updated_at: string;
 };
 
-const GitHubLogin = () => {
+// Component that renders the GitHub login button or the user's GitHub profile
+const GitHubLogin = (): JSX.Element => {
     const [githubClientId, setGithubClientId] = useState<string>("");
     const [rerender, setRerender] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData>({} as UserData);
     const [showUserModal, setShowUserModal] = useState<boolean>(false);
-
     const dispatch = useAppDispatch();
 
+    // Get the user's data from the GitHub API
     async function getUserData() {
         await fetch("http://localhost:5000/auth/getUserData", {
             method: "GET",
             headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
+                "Authorization": "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
             },
         })
             .then((res) => {
@@ -71,6 +69,7 @@ const GitHubLogin = () => {
             });
     }
 
+    // Whenever userData is retrieved, get the user's roles from the database
     useEffect(() => {
         async function getUserRoles() {
             await fetch(`http://localhost:5000/user?id=${userData.id}`, {
@@ -82,27 +81,35 @@ const GitHubLogin = () => {
                 .then((data) => {
                     // If the user has roles, add them to the user object
                     if (data.roles) {
-                        dispatch(addUser({
-                            id: userData.id,
-                            login: userData.login,
-                            html_url: userData.html_url,
-                            avatar_url: userData.avatar_url,
-                            roles: data.roles,
-                        } as IUser));
+                        dispatch(
+                            addUser({
+                                id: userData.id,
+                                login: userData.login,
+                                html_url: userData.html_url,
+                                avatar_url: userData.avatar_url,
+                                roles: data.roles,
+                            } as IUser)
+                        );
+                    // Else if the user is not in the database, give them a default role of "User"
                     } else {
-                        dispatch(addUser({
-                            id: userData.id,
-                            login: userData.login,
-                            html_url: userData.html_url,
-                            avatar_url: userData.avatar_url,
-                            roles: ["User"],
-                        } as IUser));
+                        dispatch(
+                            addUser({
+                                id: userData.id,
+                                login: userData.login,
+                                html_url: userData.html_url,
+                                avatar_url: userData.avatar_url,
+                                roles: ["User"],
+                            } as IUser)
+                        );
                     }
                 });
         }
+
+        // Only call getUserRoles if the user has an id from logging in
         if (userData.id) getUserRoles();
     }, [userData]);
 
+    // Get the GitHub client ID from the server on page load after the GitHub API returns to this page
     useEffect(() => {
         async function getGitHubClientID() {
             const fetchedGithubClientId = await fetch(
@@ -110,8 +117,10 @@ const GitHubLogin = () => {
             ).then((res) => res.json());
             setGithubClientId(fetchedGithubClientId);
         }
+
         getGitHubClientID();
 
+        // Get the code parameter from the URL
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const codeParam = urlParams.get("code");
@@ -119,6 +128,7 @@ const GitHubLogin = () => {
         // Set the href back to /
         window.history.pushState({}, "", "/");
 
+        // If the code parameter exists and the user is not logged in, get the access token from the server
         if (codeParam && localStorage.getItem("accessToken") === null) {
             async function getAccessToken() {
                 await fetch(
@@ -136,37 +146,56 @@ const GitHubLogin = () => {
                                 "accessToken",
                                 data.access_token
                             );
+                            // Rerender the component after getting the access token
                             setRerender(!rerender);
                         }
                     });
             }
+            // Call getAccessToken
             getAccessToken();
         }
     }, []);
 
+    // If we rerender this component, and the access token exists, get the user's data
     useEffect(() => {
         if (localStorage.getItem("accessToken")) {
             getUserData();
         }
     }, [rerender]);
 
+    // When the login button is clicked, redirect to the GitHub login page
     const onLoginClicked = () => {
         window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
     };
 
     return (
         <>
+            {/* 
+                If the user is logged in display their GitHub profile picture
+                If the user is not logged in, display the GitHub login button
+            */}
             {localStorage.getItem("accessToken") ? (
                 <>
                     {Object.keys(userData).length > 0 ? (
-                        <img src={userData.avatar_url} alt="avatar" className="user-avatar" onClick={() => setShowUserModal(true)} />
+                        <img
+                            src={userData.avatar_url}
+                            alt="avatar"
+                            className="user-avatar"
+                            onClick={() => setShowUserModal(true)}
+                        />
                     ) : (
                         <></>
                     )}
                     {showUserModal ? (
                         <Modal
                             toggleModal={() => setShowUserModal(false)}
-                            content={<UserModalContent login={userData.login} setRerender={setRerender} rerender={rerender}/>}
+                            content={
+                                <UserModalContent
+                                    login={userData.login}
+                                    setRerender={setRerender}
+                                    rerender={rerender}
+                                />
+                            }
                         />
                     ) : null}
                 </>

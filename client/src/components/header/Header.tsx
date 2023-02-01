@@ -3,7 +3,8 @@ import GitHubLogin from "./GitHubLogin";
 import ThemeButton from "./ThemeButton";
 import "../../styles/header.component.css";
 
-const Header = () => {
+// This is the header for the home page
+const Header = (): JSX.Element => {
     return (
         <header className="header-container">
             <img

@@ -6,7 +6,10 @@ type Props = {
     content: JSX.Element;
 };
 
-const Modal = ({ toggleModal, content }: Props) => {
+// This component is used to display modals
+const Modal = ({ toggleModal, content }: Props): React.ReactPortal => {
+
+    // Method to close the modal
     const closeModal = (
         e:
             | React.MouseEvent<HTMLDivElement>
@@ -30,7 +33,7 @@ const Modal = ({ toggleModal, content }: Props) => {
                 </button>
             </div>
         </div>,
-        document.getElementById("modal-location")!
+        document.getElementById("modal-location") as Element
     );
 };
 

@@ -31,12 +31,3 @@ body.dark-theme {
   --form-background-color: #1F1B24;
   --form-input-color: #121212;
 }
-
-/*
-Dark Theme
-
-#1F1B24 -> card background
-#121212 -> layout/header background
-#101010 -> header backgroun
-Pitt Yellow for header border bottom, maybe make it blue in light mode and yellow dark mode
-*/
