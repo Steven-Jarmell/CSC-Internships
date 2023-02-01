@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import "../../styles/themeButton.component.css";
 
 // Component that renders the theme button for light/dark mode
-const ThemeButton = () => {
+const ThemeButton = (): JSX.Element => {
     // Check if the user prefers dark mode in their browser
-    const userPrefersDark =
+    const userPrefersDark: boolean =
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
 

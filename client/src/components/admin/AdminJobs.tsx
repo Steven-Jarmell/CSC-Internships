@@ -1,4 +1,4 @@
-import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
+import { IJob, useGetJobsQuery } from "../../features/jobs/jobApiSlice";
 import "../../styles/AdminJobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import { useState } from "react";
@@ -12,7 +12,7 @@ const AdminJobs = (): JSX.Element => {
     const [jobShownId, setJobShownId] = useState<string>("");
 
     // Define an empty layout to display in the case that there are no jobs
-    const emptyLayout = (
+    const emptyLayout: JSX.Element = (
         <div className="admin-job-posting-container">
             <div className="admin-job-posting-container-object admin-job-postings">
                 <div className="admin-joblist-container"></div>
@@ -26,7 +26,7 @@ const AdminJobs = (): JSX.Element => {
     // If the query was successful, get the first job if it exists
     if (isSuccess) {
         // Get the unpublished jobs
-        const unpublishedJobs = jobs?.filter((job) => !job.published);
+        const unpublishedJobs: IJob[] = jobs?.filter((job) => !job.published);
 
         // If there are no unpublished jobs, return the empty layout
         if (unpublishedJobs?.length === 0) return emptyLayout;

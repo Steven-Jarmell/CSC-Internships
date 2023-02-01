@@ -5,11 +5,11 @@ type Props = {
     allowedRoles: string[];
 };
 
-const RequireAuth = ({ allowedRoles }: Props) => {
+const RequireAuth = ({ allowedRoles }: Props): JSX.Element => {
     const location = useLocation();
     const { roles }: { roles: string[]} = useAuth();
 
-    const content =
+    const content: JSX.Element =
         // If we find one of the roles thats all we need
         roles.some((role) => allowedRoles.includes(role)) ? (
             <Outlet />

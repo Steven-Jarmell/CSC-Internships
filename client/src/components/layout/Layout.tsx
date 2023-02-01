@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 // Allos nested UI to show up when child routes are rendered
 // If the parent route is matches exactly, it renders a child index route or nothing if there is no index route
 
-const Layout = () => {
+const Layout = (): JSX.Element => {
     return <Outlet />;
 };
 

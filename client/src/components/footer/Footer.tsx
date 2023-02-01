@@ -1,4 +1,4 @@
-const Footer = () => {
+const Footer = (): JSX.Element => {
     return <p className="layout-footer">Made with ❤️</p>;
 };
 

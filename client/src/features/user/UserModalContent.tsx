@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getUser, removeUser } from "./userSlice";
-import '../../styles/UserModalContent.css'
+import { getUser, IUser, removeUser } from "./userSlice";
+import "../../styles/UserModalContent.css";
 
 type Props = {
     login: string;
@@ -9,9 +9,11 @@ type Props = {
     rerender: boolean;
 };
 
-const UserModalContent = ({ login, setRerender, rerender }: Props) => {
-    const user = useAppSelector(getUser);
+// This component is used to display the user modal content
+const UserModalContent = ({ login, setRerender, rerender }: Props): JSX.Element => {
+    const user: IUser = useAppSelector(getUser);
     const dispatch = useAppDispatch();
+
     return (
         <div className="user-modal-content-container">
             <p className="user-modal-content-title">Hello {login}!</p>

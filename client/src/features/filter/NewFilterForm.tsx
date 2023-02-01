@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    addFilter,
-    IFilter,
-    FilterType,
-    getFilters,
-    removeFilter,
-} from "./filterSlice";
+import { addFilter, IFilter, FilterType, getFilters } from "./filterSlice";
 import "../../styles/form.css";
 
 type Props = {
     toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NewFilterForm = ({ toggleModal }: Props) => {
+// This component is used to display a new form to add a filter
+const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
     const dispatch = useAppDispatch();
-
-    const filters = useAppSelector(getFilters);
+    const filters: IFilter[] = useAppSelector(getFilters);
 
     const [filtersSelected, setFiltersSelected] = useState<IFilter[]>(filters);
     const [locations, setLocations] = useState<string[]>([""]);
@@ -26,11 +20,13 @@ const NewFilterForm = ({ toggleModal }: Props) => {
     const [sponsorshipStatus, setSponsorshipStatus] = useState<boolean>(false);
 
     const onSetFiltersClicked = (e: React.SyntheticEvent) => {
+        // Prevent the page from reloading
         e.preventDefault();
 
         // Add the current filters to the store
         dispatch(addFilter(filtersSelected));
 
+        // Reset the state of the form, might not be necessary
         setLocations([]);
         setCompanyName("");
         setJobDescription("");
@@ -38,6 +34,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
         setFiltersSelected([]);
         setSponsorshipStatus(false);
 
+        // Close the modal
         toggleModal(false);
     };
 
@@ -89,18 +86,19 @@ const NewFilterForm = ({ toggleModal }: Props) => {
     };
 
     const onFilterRemoved = (filterToRemove: IFilter) => {
-
         const filterIndex = filtersSelected.findIndex(
-            (filter) => filter.type === filterToRemove.type && filter.value === filterToRemove.value
-          );
-    
-        const newfiltersSelected= [
+            (filter) =>
+                filter.type === filterToRemove.type &&
+                filter.value === filterToRemove.value
+        );
+
+        const newfiltersSelected = [
             ...filtersSelected.slice(0, filterIndex),
             ...filtersSelected.slice(filterIndex + 1),
-          ];
+        ];
 
         setFiltersSelected(newfiltersSelected);
-    }
+    };
 
     const onSponsorshipStatusChanged = () => {
         setSponsorshipStatus(!sponsorshipStatus);
@@ -110,6 +108,7 @@ const NewFilterForm = ({ toggleModal }: Props) => {
         setJobStatus(!jobStatus);
     };
 
+    // This is the content of the form modal
     const content = (
         <>
             <form className="form">
@@ -250,26 +249,25 @@ const NewFilterForm = ({ toggleModal }: Props) => {
                     <label className="form-label" htmlFor="jobStatus">
                         Job Status:
                     </label>
-                        <input
-                            className="form-checkbox-input"
-                            type="checkbox"
-                            checked={jobStatus}
-                            onChange={onJobStatusChanged}
-                        />
-                        <button
-                            className="form-button"
-                            type="button"
-                            onClick={() => {
-                                onFilterAdded(
-                                    FilterType.JOB_STATUS,
-                                    jobStatus ? "true" : "false"
-                                );
-                                setJobStatus(false);
-                            }}
-                        >
-                            Add Job Status
-                        </button>
-            
+                    <input
+                        className="form-checkbox-input"
+                        type="checkbox"
+                        checked={jobStatus}
+                        onChange={onJobStatusChanged}
+                    />
+                    <button
+                        className="form-button"
+                        type="button"
+                        onClick={() => {
+                            onFilterAdded(
+                                FilterType.JOB_STATUS,
+                                jobStatus ? "true" : "false"
+                            );
+                            setJobStatus(false);
+                        }}
+                    >
+                        Add Job Status
+                    </button>
                 </div>
             </form>
         </>

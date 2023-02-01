@@ -12,7 +12,7 @@ const JobPostingContainer = (): JSX.Element => {
     const [jobShownId, setJobShownId] = useState<string>("");
 
     // Define an empty layout to display in the case that there are no jobs
-    const emptyLayout = (
+    const emptyLayout: JSX.Element = (
         <div className="job-posting-container">
             <div className="job-posting-container-object job-postings">
                 <FilterList />

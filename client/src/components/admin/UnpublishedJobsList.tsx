@@ -20,7 +20,7 @@ const UnpublishedJobsList = ({ setJobShownId }: Props) => {
     });
 
     // Let the default content be null
-    let content = null;
+    let content: JSX.Element = <></>;
 
 	// If the query is loading, display a loading message
     if (isLoading) content = <h1>Loading...</h1>;

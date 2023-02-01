@@ -1,7 +1,7 @@
 import { IJob, useGetJobsQuery } from "./jobApiSlice";
 import "../../styles/jobList.css";
 import { useAppSelector } from "../../app/hooks";
-import { FilterType, getFilters } from "../filter/filterSlice";
+import { FilterType, getFilters, IFilter } from "../filter/filterSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,7 +9,7 @@ type Props = {
     setJobShownId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const JobsList = ({ setJobShownId }: Props) => {
+const JobsList = ({ setJobShownId }: Props): JSX.Element => {
     const {
         data: jobs,
         isLoading,
@@ -22,10 +22,10 @@ const JobsList = ({ setJobShownId }: Props) => {
     });
 
     // Get filters
-    const filters = useAppSelector(getFilters);
+    const filters: IFilter[] = useAppSelector(getFilters);
 
     // Let the default content be null
-    let content = null;
+    let content: JSX.Element = <></>;
 
     if (isLoading) content = <h1>Loading...</h1>;
 
@@ -52,7 +52,10 @@ const JobsList = ({ setJobShownId }: Props) => {
         setJobShownId(job._id!);
     };
 
+    // This function will filter the jobs based on the filters that are selected
     const jobsToDisplay = () => {
+        // If there are no filters, just return all the jobs
+        // If there are filters, iterate through each job and see if they match the filters
         const newArray =
             filters.length > 0
                 ? jobs?.filter((job: IJob) => {

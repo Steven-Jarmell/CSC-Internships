@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { useAddNewJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 import { useAppSelector } from "../../app/hooks";
-import { getUser } from "../user/userSlice";
-import User from "../user/User";
+import { getUser, IUser } from "../user/userSlice";
 
 type Props = {
     toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NewJobForm = ({ toggleModal }: Props) => {
-    const [addNewJob, { isLoading, isSuccess, isError, error }] =
+const NewJobForm = ({ toggleModal }: Props): JSX.Element => {
+    const [addNewJob, { isLoading}] =
         useAddNewJobMutation();
 
-    const user = useAppSelector(getUser);
+    const user: IUser = useAppSelector(getUser);
 
     const [companyName, setCompanyName] = useState<string>("");
     const [jobDescription, setJobDescription] = useState<string>("");
@@ -25,7 +24,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
     const [anonymous, setAnonymous] = useState<boolean>(false);
     const [avatar_url, setAvatar_url] = useState<string>(user.avatar_url);
 
-    const canSave =
+    const canSave: boolean =
         [
             companyName,
             jobDescription,
@@ -34,6 +33,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
             contributor,
         ].every(Boolean) && !isLoading;
 
+    // If the user is anonymous, set the contributor to anonymous and the avatar_url to an empty string
     useEffect(() => {
         if (anonymous) {
             setContributor("Anonymous");
@@ -44,10 +44,14 @@ const NewJobForm = ({ toggleModal }: Props) => {
         }
     }, [anonymous]);
 
-    let published = false;
+    let published: boolean = false;
 
+    // Handle the submission of the form
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
+        // Prevent the page from refreshing
         e.preventDefault();
+
+        // Check if all fields are filled out and if they are, add the new job
         if (canSave) {
             await addNewJob({
                 companyName,
@@ -61,6 +65,8 @@ const NewJobForm = ({ toggleModal }: Props) => {
                 published,
             });
         }
+
+        // Close the modal
         toggleModal(false);
     };
 
@@ -108,7 +114,7 @@ const NewJobForm = ({ toggleModal }: Props) => {
         setAnonymous(!anonymous);
     };
 
-    const content = (
+    const content: JSX.Element = (
         <>
             <form className="form" onSubmit={onSaveJobClicked}>
                 <h2 className="form-title">New Job</h2>

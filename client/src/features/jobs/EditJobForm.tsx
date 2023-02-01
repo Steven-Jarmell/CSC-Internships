@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { IJob, useUpdateJobMutation } from "./jobApiSlice";
 import "../../styles/form.css";
 import Job from "./Job";
@@ -10,10 +10,11 @@ type Props = {
     setReturnContent: React.Dispatch<React.SetStateAction<JSX.Element>>;
 };
 
+// This component is used to edit a job
 const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
-    const { isAdmin } = useAuth();
-
+    const { isAdmin } : { isAdmin: boolean } = useAuth();
     const [updateJob, { isLoading }] = useUpdateJobMutation();
+
     const [companyName, setCompanyName] = useState<string>(job.companyName);
     const [jobDescription, setJobDescription] = useState<string>(
         job.jobDescription
@@ -28,13 +29,17 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
         isAdmin ? job.published : false
     );
 
-    const canSave =
+    // Check if all fields are filled out and the updateJob mutation is not loading
+    const canSave: boolean =
         [companyName, jobDescription, locations.length, jobLink].every(
             Boolean
         ) && !isLoading;
 
     const onSaveJobClicked = async (e: React.SyntheticEvent) => {
+        // Prevent the page from refreshing
         e.preventDefault();
+
+        // Check if all fields are filled out and if they are, update the job
         if (canSave) {
             await updateJob({
                 _id,
@@ -46,6 +51,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                 jobLink,
                 published,
             }).then(() => {
+                // After it updates, set the return content to the updated job
                 const newJob = {
                     _id,
                     companyName,
@@ -57,7 +63,18 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
                     contributor: job.contributor,
                     published,
                 };
-                setReturnContent(<Job jobId={_id} updatedJob={newJob} />);
+                setReturnContent(
+                    <Job
+                        jobId={_id}
+                        updatedJob={newJob}
+                        jobs={[]}
+                        setJobShownId={function (
+                            value: SetStateAction<string>
+                        ): void {
+                            throw new Error("Function not implemented.");
+                        }}
+                    />
+                );
             });
         }
     };
@@ -106,7 +123,7 @@ const EditJobForm = ({ job, jobId: _id, setReturnContent }: Props) => {
         setPublished(!published);
     };
 
-    const content = (
+    const content: JSX.Element = (
         <>
             <form className="form form-edit-job" onSubmit={onSaveJobClicked}>
                 <h2 className="form-title">Edit Job</h2>
