@@ -55,7 +55,7 @@ const GitHubLogin = (): JSX.Element => {
 
     // Get the user's data from the GitHub API
     async function getUserData() {
-        await fetch("http://localhost:5000/auth/getUserData", {
+        await fetch("https://pittcsc-api.onrender.com/auth/getUserData", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
@@ -72,7 +72,7 @@ const GitHubLogin = (): JSX.Element => {
     // Whenever userData is retrieved, get the user's roles from the database
     useEffect(() => {
         async function getUserRoles() {
-            await fetch(`http://localhost:5000/user?id=${userData.id}`, {
+            await fetch(`https://pittcsc-api.onrender.com/user?id=${userData.id}`, {
                 method: "GET",
             })
                 .then((res) => {
@@ -111,15 +111,6 @@ const GitHubLogin = (): JSX.Element => {
 
     // Get the GitHub client ID from the server on page load after the GitHub API returns to this page
     useEffect(() => {
-        async function getGitHubClientID() {
-            const fetchedGithubClientId = await fetch(
-                "http://localhost:5000/auth/githubClientID"
-            ).then((res) => res.json());
-            setGithubClientId(fetchedGithubClientId);
-        }
-
-        getGitHubClientID();
-
         // Get the code parameter from the URL
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -132,7 +123,7 @@ const GitHubLogin = (): JSX.Element => {
         if (codeParam && localStorage.getItem("accessToken") === null) {
             async function getAccessToken() {
                 await fetch(
-                    `http://localhost:5000/auth/getAccessToken?code=${codeParam}`,
+                    `https://pittcsc-api.onrender.com/auth/getAccessToken?code=${codeParam}`,
                     {
                         method: "GET",
                     }
@@ -165,7 +156,15 @@ const GitHubLogin = (): JSX.Element => {
 
     // When the login button is clicked, redirect to the GitHub login page
     const onLoginClicked = () => {
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
+        async function getGitHubClientID() {
+            await fetch(
+                "https://pittcsc-api.onrender.com/auth/githubClientID"
+            ).then((res) => res.json()).then((data) => {
+                window.location.href = `https://github.com/login/oauth/authorize?client_id=${data}`;
+                setGithubClientId(data);
+            });
+        }
+        getGitHubClientID();
     };
 
     return (
