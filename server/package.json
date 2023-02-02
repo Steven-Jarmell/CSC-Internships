@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node src/server.ts",
-    "test": "nodemon -q src/server.ts"
+    "start": "node server.ts",
+    "test": "nodemon -q server.ts"
   },
   "author": "",
   "license": "ISC",

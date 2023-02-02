@@ -2,12 +2,12 @@ require("dotenv").config();
 require("express-async-errors"); // Add this for unexpected async events
 
 import express, { Express } from "express";
-import connectDB from "../config/connectDB";
+import connectDB from "./config/connectDB";
 import mongoose from "mongoose";
-import { logEvents, logger } from "../middleware/logEvents";
+import { logEvents, logger } from "./middleware/logEvents";
 import path from "path";
 import cors from "cors";
-import { corsOptions } from "../config/corsOptions";
+import { corsOptions } from "./config/corsOptions";
 
 const app: Express = express();
 const port: Number = Number(process.env.PORT || 5000); // Change to be in dotenv
@@ -23,14 +23,14 @@ app.use(logger);
 app.use(express.json());
 
 // For the base, use root routes
-app.use("/", require("../routes/root"));
+app.use("/", require("./routes/root"));
 
 // For the jobs, use job routes
-app.use("/jobs", require("../routes/jobRoutes"));
+app.use("/jobs", require("./routes/jobRoutes"));
 
-app.use("/auth", require("../routes/authRoutes"));
+app.use("/auth", require("./routes/authRoutes"));
 
-app.use("/user", require("../routes/userRoutes"));
+app.use("/user", require("./routes/userRoutes"));
 
 // Catch every wrong path
 app.all("*", (req, res) => {
