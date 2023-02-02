@@ -55,7 +55,7 @@ const GitHubLogin = (): JSX.Element => {
 
     // Get the user's data from the GitHub API
     async function getUserData() {
-        await fetch("https://pittcsc-api/auth/getUserData", {
+        await fetch("https://pittcsc-api.onrender.com/auth/getUserData", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken"), // Make sure "Authorization" is in quotes
@@ -72,7 +72,7 @@ const GitHubLogin = (): JSX.Element => {
     // Whenever userData is retrieved, get the user's roles from the database
     useEffect(() => {
         async function getUserRoles() {
-            await fetch(`https://pittcsc-api/user?id=${userData.id}`, {
+            await fetch(`https://pittcsc-api.onrender.com/user?id=${userData.id}`, {
                 method: "GET",
             })
                 .then((res) => {
@@ -123,7 +123,7 @@ const GitHubLogin = (): JSX.Element => {
         if (codeParam && localStorage.getItem("accessToken") === null) {
             async function getAccessToken() {
                 await fetch(
-                    `https://pittcsc-api/auth/getAccessToken?code=${codeParam}`,
+                    `https://pittcsc-api.onrender.com/auth/getAccessToken?code=${codeParam}`,
                     {
                         method: "GET",
                     }
@@ -158,7 +158,7 @@ const GitHubLogin = (): JSX.Element => {
     const onLoginClicked = () => {
         async function getGitHubClientID() {
             await fetch(
-                "https://pittcsc-api/auth/githubClientID"
+                "https://pittcsc-api.onrender/auth/githubClientID"
             ).then((res) => res.json()).then((data) => {
                 window.location.href = `https://github.com/login/oauth/authorize?client_id=${data}`;
                 setGithubClientId(data);
