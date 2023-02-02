@@ -59,7 +59,7 @@ const createNewJob = async (req: Request, res: Response) => {
         return res.status(409).json({ message: "Duplicate job" });
     }
 
-    let published = false;
+    let published: boolean = false;
 
     // Create the job object to add to the database
     const jobObject: IJob = contributor
@@ -82,7 +82,7 @@ const createNewJob = async (req: Request, res: Response) => {
               jobStatus,
               jobLink,
               avatar_url,
-              published
+              published,
           };
 
     const job = await Job.create(jobObject);
@@ -111,7 +111,7 @@ const updateJob = async (req: Request, res: Response) => {
         sponsorshipStatus,
         jobStatus,
         jobLink,
-        published
+        published,
     }: FullJob = req.body;
 
     // Check inputs. contributor field is immutable and should not change
@@ -125,9 +125,7 @@ const updateJob = async (req: Request, res: Response) => {
         typeof jobStatus !== "boolean" ||
         !jobLink
     ) {
-        return res
-            .status(400)
-            .json({ message: 'All fields are required' });
+        return res.status(400).json({ message: "All fields are required" });
     }
 
     // Confirm that the job to be updated exists

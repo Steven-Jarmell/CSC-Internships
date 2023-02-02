@@ -21,7 +21,7 @@ const getUser = async (req: Request, res: Response) => {
         return res.status(400).json({ message: "No ID received" });
     }
 
-    const user = await User.findOne({id}).exec();
+    const user = await User.findOne({ id }).exec();
 
     if (!user) {
         return res.status(400).json({ message: "No user found" });
@@ -61,29 +61,16 @@ const createNewUser = async (req: Request, res: Response) => {
     }
 };
 
-interface FullUser extends IUser {
-    _id: string;
-}
-
 // @desc Update a user
 // @route PATCH /user
 // @access Private
 const updateUser = async (req: Request, res: Response) => {
     // Get data from request body
-    const {
-        _id,
-        roles
-    } = req.body;
+    const { _id, roles } = req.body;
 
     // Check inputs. contributor field is immutable and should not change
-    if (
-        !_id ||
-        !Array.isArray(roles) ||
-        !roles.length
-    ) {
-        return res
-            .status(400)
-            .json({ message: 'All fields are required' });
+    if (!_id || !Array.isArray(roles) || !roles.length) {
+        return res.status(400).json({ message: "All fields are required" });
     }
 
     // Confirm that the user to be updated exists

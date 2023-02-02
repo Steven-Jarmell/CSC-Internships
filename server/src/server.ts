@@ -6,7 +6,7 @@ import connectDB from "../config/connectDB";
 import mongoose from "mongoose";
 import { logEvents, logger } from "../middleware/logEvents";
 import path from "path";
-import cors from 'cors';
+import cors from "cors";
 
 const app: Express = express();
 const port: Number = Number(process.env.PORT || 5000); // Change to be in dotenv
@@ -33,29 +33,29 @@ app.use("/user", require("../routes/userRoutes"));
 
 // Catch every wrong path
 app.all("*", (req, res) => {
-	res.status(404);
-	if (req.accepts("html")) {
-		res.sendFile(path.join(__dirname, "..", "views", "404.html"));
-	} else if (req.accepts("json")) {
-		res.json({ message: "404 Not Found" });
-	} else {
-		res.type("txt").send("404 Not Found");
-	}
+    res.status(404);
+    if (req.accepts("html")) {
+        res.sendFile(path.join(__dirname, "..", "views", "404.html"));
+    } else if (req.accepts("json")) {
+        res.json({ message: "404 Not Found" });
+    } else {
+        res.type("txt").send("404 Not Found");
+    }
 });
 
 // Once we connect to the database, have the app start listening
 mongoose.connection.once("open", () => {
-	console.log("Connected to MongoDB");
-	app.listen(port, () => {
-		console.log(`[Server]: I am running at http://localhost:${port}`);
-	});
+    console.log("Connected to MongoDB");
+    app.listen(port, () => {
+        console.log(`[Server]: I am running at http://localhost:${port}`);
+    });
 });
 
 // If there is an error with mongoDBm log it
 mongoose.connection.on("error", (err) => {
-	console.log(err);
-	logEvents(
-		`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
-		"mongoErrLog.log"
-	);
+    console.log(err);
+    logEvents(
+        `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+        "mongoErrLog.log"
+    );
 });

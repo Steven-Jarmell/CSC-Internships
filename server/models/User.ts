@@ -1,7 +1,7 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface IUser {
-	id: string;
+    id: string;
     roles: string[];
 }
 
