@@ -158,7 +158,7 @@ const GitHubLogin = (): JSX.Element => {
     const onLoginClicked = () => {
         async function getGitHubClientID() {
             await fetch(
-                "https://pittcsc-api.onrender/auth/githubClientID"
+                "https://pittcsc-api.onrender.com/auth/githubClientID"
             ).then((res) => res.json()).then((data) => {
                 window.location.href = `https://github.com/login/oauth/authorize?client_id=${data}`;
                 setGithubClientId(data);
