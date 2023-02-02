@@ -13,7 +13,7 @@ function App() {
                 <Route index element={<ContentLayout />} />
 
                 {/* Protect the admin dashboard route */}
-                <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+                <Route element={<RequireAuth allowedRoles={["Admin", "Moderator"]} />}>
                     <Route path="admin" element={<AdminLayout />} />
                 </Route>
             </Route>
