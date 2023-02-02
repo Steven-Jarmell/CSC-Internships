@@ -13,6 +13,7 @@ export const store = configureStore({
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: false
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
