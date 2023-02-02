@@ -99,9 +99,11 @@ const Job = ({
             <p className="job-status">
                 <b>Status: </b> {job?.jobStatus ? "Job Open" : "Job Closed"}
             </p>
-            <a className="job-link" href={job?.jobLink}>
-                Apply
-            </a>
+            {job?.jobStatus && (
+                <a className="job-link" href={job?.jobLink}>
+                    Apply
+                </a>
+            )}
             <div className="job-contributor">
                 <b>Added By: </b>
                 <User login={job?.contributor!} avatar_url={job?.avatar_url!} />
