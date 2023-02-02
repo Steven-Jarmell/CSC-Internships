@@ -7,13 +7,14 @@ import mongoose from "mongoose";
 import { logEvents, logger } from "../middleware/logEvents";
 import path from "path";
 import cors from "cors";
+import { corsOptions } from "../config/corsOptions";
 
 const app: Express = express();
 const port: Number = Number(process.env.PORT || 5000); // Change to be in dotenv
 
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Use the logger to keep track of what events happen
 app.use(logger);
