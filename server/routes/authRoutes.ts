@@ -1,4 +1,7 @@
 import express, { Router, Request, Response } from "express";
+import { RequestInfo, RequestInit } from "node-fetch";
+
+const fetch = (url: RequestInfo, init?: RequestInit) =>  import("node-fetch").then(({ default: fetch }) => fetch(url, init));
 
 const router: Router = express.Router();
 
