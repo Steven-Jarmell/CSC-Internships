@@ -111,15 +111,6 @@ const GitHubLogin = (): JSX.Element => {
 
     // Get the GitHub client ID from the server on page load after the GitHub API returns to this page
     useEffect(() => {
-        async function getGitHubClientID() {
-            const fetchedGithubClientId = await fetch(
-                "https://pittcsc-api/auth/githubClientID"
-            ).then((res) => res.json());
-            setGithubClientId(fetchedGithubClientId);
-        }
-
-        getGitHubClientID();
-
         // Get the code parameter from the URL
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -165,7 +156,15 @@ const GitHubLogin = (): JSX.Element => {
 
     // When the login button is clicked, redirect to the GitHub login page
     const onLoginClicked = () => {
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
+        async function getGitHubClientID() {
+            await fetch(
+                "https://pittcsc-api/auth/githubClientID"
+            ).then((res) => res.json()).then((data) => {
+                window.location.href = `https://github.com/login/oauth/authorize?client_id=${data}`;
+                setGithubClientId(data);
+            });
+        }
+        getGitHubClientID();
     };
 
     return (
