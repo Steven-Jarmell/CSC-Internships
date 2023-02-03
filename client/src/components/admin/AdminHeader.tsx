@@ -44,7 +44,7 @@ const AdminHeader = (): JSX.Element => {
             {(showAddUserRoles && !showEditUserRoles) ? (
                 <Modal
                     toggleModal={setShowAddUserRoles}
-                    content={<PermissionsForm />}
+                    content={<PermissionsForm toggleModal={setShowAddUserRoles}/>}
                 />
             ) : null}
             {(!showAddUserRoles && showEditUserRoles) ? (
