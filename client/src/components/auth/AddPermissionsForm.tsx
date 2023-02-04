@@ -13,6 +13,7 @@ const AddPermissionsForm = ({ toggleModal }: Props): JSX.Element => {
         useAddNewUserMutation();
     const [userID, setUserID] = useState<number>(0);
     const [roles, setRoles] = useState<string[]>(["User"]);
+    const [login, setLogin] = useState<string>("");
 
     const options: JSX.Element[] = Object.values(ROLES).map((role) => {
         return (
@@ -31,16 +32,23 @@ const AddPermissionsForm = ({ toggleModal }: Props): JSX.Element => {
     };
 
     const onUserIDChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserID(Number(e.target.value));
+        const reg = /^[0-9]*$/;
+        if (reg.test(e.currentTarget.value)) {
+            setUserID(Number(e.target.value));
+        }
     };
 
-    let canSave: boolean = userID > 0 && !isLoading;
+    const onLoginChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLogin(e.target.value);
+    };
+
+    let canSave: boolean = [userID, login.length].every(Boolean) && !isLoading;
 
     const onSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         if (canSave) {
-            await addUser({ id: userID, roles: roles } as IUser);
+            await addUser({ id: userID, roles: roles, login: login } as IUser);
         }
 
         toggleModal(false);
@@ -68,6 +76,17 @@ const AddPermissionsForm = ({ toggleModal }: Props): JSX.Element => {
                     type="text"
                     value={userID}
                     onChange={onUserIDChanged}
+                />
+                <label className="" htmlFor="userID">
+                    Username:
+                </label>
+                <input
+                    id="userID"
+                    name="userID"
+                    className="form-text-input"
+                    type="text"
+                    value={login}
+                    onChange={onLoginChanged}
                 />
                 <label className="" htmlFor="roles">
                     Roles:

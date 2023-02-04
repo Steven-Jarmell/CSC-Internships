@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import UserList from "../../features/user/UserList";
 import useAuth from "../../hooks/useAuth";
 import "../../styles/AdminHeader.css";
 import PermissionsForm from "../auth/AddPermissionsForm";
-import EditPermissionsForm from "../auth/EditPermissionsForm";
 import Modal from "../modals/Modal";
 
 // This is the header for the admin dashboard
@@ -50,7 +50,7 @@ const AdminHeader = (): JSX.Element => {
             {(!showAddUserRoles && showEditUserRoles) ? (
                 <Modal
                     toggleModal={setShowEditUserRoles}
-                    content={<EditPermissionsForm />}
+                    content={<UserList toggleModal={setShowEditUserRoles}/>}
                 />
             ) : null}
             <Link to="/" className="admin-header-home-link">
