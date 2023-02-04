@@ -14,7 +14,7 @@ const EditPermissionsForm = ({ user, toggleModal }: Props): JSX.Element => {
 
     const options: JSX.Element[] = Object.values(ROLES).map((role) => {
         return (
-            <option key={role} value={role}>
+            <option key={role} value={role} className="form-select-option">
                 {role}
             </option>
         );
@@ -56,7 +56,7 @@ const EditPermissionsForm = ({ user, toggleModal }: Props): JSX.Element => {
 
     return (
         <>
-            <form className="form">
+            <form className="form admin-form">
                 <h2 className="form-title">Edit User</h2>
                 <button
                     className="form-button form-save-button"
@@ -66,7 +66,7 @@ const EditPermissionsForm = ({ user, toggleModal }: Props): JSX.Element => {
                 >
                     Save
                 </button>
-                <label className="" htmlFor="userID">
+                <label className="form-label" htmlFor="userID">
                     User ID:
                 </label>
                 <input
@@ -77,7 +77,7 @@ const EditPermissionsForm = ({ user, toggleModal }: Props): JSX.Element => {
                     value={userID}
                     onChange={onUserIDChanged}
                 />
-                <label className="" htmlFor="userID">
+                <label className="form-label" htmlFor="userID">
                     Username:
                 </label>
                 <input
@@ -88,12 +88,13 @@ const EditPermissionsForm = ({ user, toggleModal }: Props): JSX.Element => {
                     value={login}
                     onChange={onLoginChanged}
                 />
-                <label className="" htmlFor="roles">
+                <label className="form-label" htmlFor="roles">
                     Roles:
                 </label>
                 <select
                     id="roles"
                     name="roles"
+                    className="form-select"
                     multiple={true}
                     size={3}
                     onChange={onRolesChanged}
