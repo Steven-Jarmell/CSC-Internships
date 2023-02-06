@@ -25,12 +25,13 @@ app.use(express.json());
 // For the base, use root routes
 app.use("/", require("./routes/root"));
 
-// For the jobs, use job routes
 app.use("/jobs", require("./routes/jobRoutes"));
 
 app.use("/auth", require("./routes/authRoutes"));
 
 app.use("/user", require("./routes/userRoutes"));
+
+app.use("/reports", require("./routes/reportRoutes"));
 
 // Catch every wrong path
 app.all("*", (req, res) => {
