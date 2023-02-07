@@ -16,12 +16,7 @@
     text-align: center;
     font-size: 40px;
     margin: 0;
-}
-
-.job-description {
-}
-
-.job-location-title {
+    margin-left: auto;
 }
 
 .job-locations-container {
@@ -30,15 +25,6 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap; 
-}
-
-.job-location {
-}
-
-.job-sponsorship {
-}
-
-.job-status {
 }
 
 .job-link {
@@ -77,4 +63,19 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.job-title-container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.job-flag-icon {
+    cursor: pointer;
+    color: #e20000;
+    height: 25px;
+    width: auto;
+    justify-content: flex-end;
+    margin-left: auto;
 }

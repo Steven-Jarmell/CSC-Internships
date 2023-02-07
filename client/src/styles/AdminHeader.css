@@ -11,7 +11,8 @@
     border-bottom: 1px solid var(--header-border-color);
 }
 
-.admin-header-home-link {
+.admin-header-home-link,
+.admin-header-add-permissions-button {
     text-decoration: none;
     color: var(--pitt-blue);
     border: 1px solid var(--pitt-blue);
@@ -19,7 +20,8 @@
     padding: 4px 10px;
 }
 
-.admin-header-home-link:hover {
+.admin-header-home-link:hover,
+.admin-header-add-permissions-button:hover {
     background-color: var(--pitt-blue);
     color: white;
 }
@@ -28,4 +30,10 @@
     background: linear-gradient(to right, var(--pitt-blue), var(--pitt-yellow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.admin-header-add-permissions-button {
+    cursor: pointer;
+    font-size: 25px;
+    background-color: var(--header-background-color);
 }
