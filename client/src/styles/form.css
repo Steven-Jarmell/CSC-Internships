@@ -1,7 +1,7 @@
 .form {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid var(--pitt-yellow);
     border-radius: 5px;
     height: 100%;
     width: auto;
@@ -60,10 +60,6 @@
     margin-left: 5px;
 }
 
-.form-button-add-locations {
-    margin-left: 5px;
-}
-
 .form-checkbox-input {
     margin: 0px 5px;
 }
@@ -75,4 +71,18 @@
 .form input {
     background-color: var(--form-input-color);
     color: var(--text-color)
+}
+
+.form-select {
+    background-color: var(--form-input-color);
+    color: var(--text-color)
+}
+
+.form-select-option {
+    font-size: 15px;
+}
+
+.form-subtitle {
+    font-size: 20px;
+    color: var(--text-color);
 }

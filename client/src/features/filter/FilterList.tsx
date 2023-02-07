@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../app/hooks";
 import { getFilters, IFilter } from "./filterSlice";
-import "../../styles/FilterList.component.css";
+import "../../styles/filterList.component.css";
 import Filter from "./Filter";
 
 // This component is used to display a list of filters

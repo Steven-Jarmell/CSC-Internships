@@ -31,3 +31,7 @@
     font-weight: bold;
     color: var(--pitt-blue);
 }
+
+.loading-message {
+    color: var(--text-color);
+}

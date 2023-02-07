@@ -58,7 +58,7 @@ const AdminJobs = (): JSX.Element => {
         return emptyLayout;
     // If the query is still loading, return a loading message
     } else {
-        return <h1>Loading...</h1>;
+        return <h1 className="loading-message">Loading...</h1>;
     }
 };
 

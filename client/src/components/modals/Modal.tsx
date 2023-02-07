@@ -4,10 +4,12 @@ import "../../styles/Modal.css";
 type Props = {
     toggleModal: React.Dispatch<React.SetStateAction<boolean>>;
     content: JSX.Element;
+    setRerender?: React.Dispatch<React.SetStateAction<boolean>>;
+    rerender?: boolean;
 };
 
 // This component is used to display modals
-const Modal = ({ toggleModal, content }: Props): React.ReactPortal => {
+const Modal = ({ toggleModal, content, setRerender, rerender }: Props): React.ReactPortal => {
 
     // Method to close the modal
     const closeModal = (
@@ -16,6 +18,9 @@ const Modal = ({ toggleModal, content }: Props): React.ReactPortal => {
             | React.MouseEvent<HTMLButtonElement>
     ) => {
         toggleModal(false);
+        if (setRerender) {
+            setRerender(!rerender);
+        }
     };
 
     return createPortal(

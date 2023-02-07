@@ -1,0 +1,33 @@
+.user-list-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: var(--form-background-color);
+    max-height: 30vh;
+    color: var(--text-color);
+    border: 1px solid var(--pitt-yellow);
+    border-radius: 5px;
+}
+
+.user-list-title {
+    text-align: center;
+}
+
+.user-list-items {
+    max-height: 20vh;
+    overflow: auto;
+}
+
+.user-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 15px;
+}
+
+.user-edit-icon {
+    cursor: pointer;
+}

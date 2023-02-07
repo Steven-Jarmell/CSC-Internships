@@ -13,7 +13,7 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
     const filters: IFilter[] = useAppSelector(getFilters);
 
     const [filtersSelected, setFiltersSelected] = useState<IFilter[]>(filters);
-    const [locations, setLocations] = useState<string[]>([""]);
+    const [location, setLocation] = useState<string>("");
     const [companyName, setCompanyName] = useState<string>("");
     const [jobStatus, setJobStatus] = useState<boolean>(false);
     const [jobDescription, setJobDescription] = useState<string>("");
@@ -27,7 +27,7 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
         dispatch(addFilter(filtersSelected));
 
         // Reset the state of the form, might not be necessary
-        setLocations([]);
+        setLocation("");
         setCompanyName("");
         setJobDescription("");
         setJobStatus(false);
@@ -48,22 +48,8 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
         setJobDescription(e.target.value);
     };
 
-    const onLocationNameChange =
-        (i: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-            // Make a copy of the locations, update the location at index i and set the state of locations to newLocations
-            let newLocations = [...locations];
-            newLocations[i] = e.target.value;
-            setLocations(newLocations);
-        };
-
-    const onLocationRemoved = (i: number) => () => {
-        let newLocations = locations.filter((location, j) => i !== j);
-        setLocations(newLocations);
-    };
-
-    const onLocationAdded = () => {
-        let newLocations = locations.concat([""]);
-        setLocations(newLocations);
+    const onLocationNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLocation(e.target.value);
     };
 
     const onFilterAdded = (type: FilterType, value: string) => {
@@ -145,7 +131,18 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
                         type="text"
                         autoComplete="off"
                         value={companyName}
+                        placeholder={`Company name`}
                         onChange={onCompanyNameChanged}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                onFilterAdded(
+                                    FilterType.COMPANY_NAME,
+                                    companyName
+                                );
+                                setCompanyName("");
+                            }
+                        }}
                     />
                     <button
                         className="form-button"
@@ -169,7 +166,18 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
                         type="text"
                         autoComplete="off"
                         value={jobDescription}
+                        placeholder={`Job Description`}
                         onChange={onJobDescriptionChanged}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                onFilterAdded(
+                                    FilterType.JOB_TYPE,
+                                    jobDescription
+                                );
+                                setCompanyName("");
+                            }
+                        }}
                     />
                     <button
                         className="form-button"
@@ -183,42 +191,34 @@ const NewFilterForm = ({ toggleModal }: Props): JSX.Element => {
                     </button>
                 </div>
                 <div className="form-input">
-                    {locations.map((location, i) => (
-                        <div className="form-location" key={i}>
-                            <input
-                                className="form-text-input"
-                                type="text"
-                                placeholder={`Location #${i + 1} name`}
-                                value={location}
-                                onChange={onLocationNameChange(i)}
-                            />
-                            <button
-                                className="form-delete-location-button"
-                                type="button"
-                                onClick={onLocationRemoved(i)}
-                            >
-                                -
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="form-button"
-                        type="button"
-                        onClick={onLocationAdded}
-                    >
-                        Add Location
-                    </button>
+                    <div className="form-location">
+                        <input
+                            className="form-text-input"
+                            type="text"
+                            placeholder={`Location name`}
+                            value={location}
+                            onChange={onLocationNameChange}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    onFilterAdded(
+                                        FilterType.LOCATION,
+                                        location
+                                    );
+                                    setLocation("");
+                                }
+                            }}
+                        />
+                    </div>
                     <button
                         className="form-button form-button-add-locations"
                         type="button"
                         onClick={() => {
-                            locations.forEach((location) => {
-                                onFilterAdded(FilterType.LOCATION, location);
-                            });
-                            setLocations([""]);
+                            onFilterAdded(FilterType.LOCATION, location);
+                            setLocation("");
                         }}
                     >
-                        Add Locations Filter
+                        Add Location Filter
                     </button>
                 </div>
                 <div className="form-input form-checkbox-container">
