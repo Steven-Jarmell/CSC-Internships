@@ -4,6 +4,7 @@ export interface IReport {
     jobID: string;
     reportCategory: string[];
     reportMessage: string;
+    reportMessageList: string[];
     numTimesReported: number;
 }
 
@@ -18,6 +19,10 @@ const reportSchema = new Schema<IReport>({
     },
     reportMessage: {
         type: String,
+        required: true,
+    },
+    reportMessageList: {
+        type: [String],
         required: true,
     },
     numTimesReported: {

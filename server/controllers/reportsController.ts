@@ -48,6 +48,8 @@ const createNewReport = async (req: Request, res: Response) => {
         duplicate.numTimesReported += 1;
         // Union the duplicate report categories with the new report categories without including duplicates
         duplicate.reportCategory = [...new Set([...duplicate.reportCategory, ...reportCategory])];
+        // Add the new report message to the list of report messages
+        duplicate.reportMessageList.push(reportMessage);
 
         // Save the updated report
         await duplicate.save();
@@ -59,6 +61,7 @@ const createNewReport = async (req: Request, res: Response) => {
         jobID,
         reportCategory,
         reportMessage,
+        reportMessageList: [reportMessage],
         numTimesReported: 1,
     };
 
