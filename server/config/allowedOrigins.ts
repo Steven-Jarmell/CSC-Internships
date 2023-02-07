@@ -1,3 +1,3 @@
 export const allowedOrigins: string[] = [
-    'https://cscinternships.onrender.com'
+    'http://localhost:5173'
 ]
