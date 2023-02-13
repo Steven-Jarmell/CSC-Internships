@@ -10,18 +10,17 @@ const getUser = async (req: Request, res: Response) => {
     const { query } = req;
     const { id } = query;
 
+    // If there is no idea, return all the users
     if (!id) {
-        return res.json({
-            success: false,
-            message: "Error: No id",
-        });
+        const users = await User.find({}).lean().exec();
+        return res.json(users);
     }
 
     if (!id) {
         return res.status(400).json({ message: "No ID received" });
     }
 
-    const user = await User.findOne({ id }).exec();
+    const user = await User.findOne({ id }).lean().exec();
 
     if (!user) {
         return res.status(400).json({ message: "No user found" });
@@ -35,7 +34,7 @@ const getUser = async (req: Request, res: Response) => {
 // @access Private
 const createNewUser = async (req: Request, res: Response) => {
     // Get variables from the request body
-    const { id, roles }: IUser = req.body;
+    const { id, roles, login }: IUser = req.body;
 
     // Confirm the data
     if (!id || !Array.isArray(roles) || !roles.length) {
@@ -49,8 +48,8 @@ const createNewUser = async (req: Request, res: Response) => {
         return res.status(409).json({ message: "Duplicate job" });
     }
 
-    // Create the job object to add to the database
-    const userObject: IUser = { id, roles };
+    // Create the user object to add to the database
+    const userObject: IUser = { id, roles, login };
 
     const user = await User.create(userObject);
 
@@ -66,22 +65,23 @@ const createNewUser = async (req: Request, res: Response) => {
 // @access Private
 const updateUser = async (req: Request, res: Response) => {
     // Get data from request body
-    const { _id, roles } = req.body;
+    const { id, roles, login } = req.body;
 
-    // Check inputs. contributor field is immutable and should not change
-    if (!_id || !Array.isArray(roles) || !roles.length) {
+    // Check inputs 
+    if (!id || !login || !Array.isArray(roles) || !roles.length) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     // Confirm that the user to be updated exists
-    const user = await User.findById(_id).exec();
+    const user = await User.findOne({ id }).exec();
 
     if (!user) {
         return res.status(400).json({ message: "User not found" });
     }
 
-    // Update the job
+    // Update the roles list
     user.roles = roles;
+    user.login = login;
 
     const updatedUser = await user.save();
 

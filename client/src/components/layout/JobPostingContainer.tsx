@@ -1,6 +1,6 @@
 import { useGetJobsQuery } from "../../features/jobs/jobApiSlice";
 import JobsList from "../../features/jobs/JobsList";
-import "../../styles/JobPostingContainer.css";
+import "../../styles/jobPostingContainer.css";
 import Job from "../../features/jobs/Job";
 import { useState } from "react";
 import FilterList from "../../features/filter/FilterList";
@@ -59,7 +59,7 @@ const JobPostingContainer = (): JSX.Element => {
         return emptyLayout;
     // If the query is still loading, return a loading message
     } else {
-        return <h1>Loading...</h1>;
+        return <h1 className="loading-message">Loading...</h1>;
     }
 };
 

@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 export interface IUser {
     id: string;
     roles: string[];
+    login: string;
 }
 
 const userSchema = new Schema<IUser>({
@@ -15,6 +16,10 @@ const userSchema = new Schema<IUser>({
         type: [String],
         required: true,
     },
+    login: {
+        type: String,
+        required: true,
+    }
 });
 
 export default model<IUser>("User", userSchema);

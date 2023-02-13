@@ -4,6 +4,10 @@ import "../../styles/job.css";
 import EditJobForm from "./EditJobForm";
 import User from "../user/User";
 import useAuth from "../../hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFlag } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../components/modals/Modal";
+import NewReportForm from "../reportJob/NewReportForm";
 
 type Props = {
     jobs: IJob[];
@@ -35,6 +39,8 @@ const Job = ({
         useDeleteJobMutation();
 
     const { isAdmin }: { isAdmin: boolean } = useAuth();
+    const [showReportModal, setShowReportModal] = useState<boolean>(false);
+    const [rerender, setRerender] = useState<boolean>(false);
 
     // If the job is updated, set the job to the updated job
     if (updatedJob) {
@@ -74,9 +80,21 @@ const Job = ({
         );
     };
 
+    const onReportJobClicked = () => {
+        setShowReportModal(true);
+        setRerender(!rerender);
+    };
+
     const content: JSX.Element = (
         <div className="job-container">
-            <p className="job-name">{job?.companyName}</p>
+            <div className="job-title-container">
+                <p className="job-name">{job?.companyName}</p>
+                <FontAwesomeIcon
+                    icon={faFlag}
+                    className="job-flag-icon"
+                    onClick={onReportJobClicked}
+                />
+            </div>
             <p className="job-description">
                 <b>Description:</b> {job?.jobDescription}
             </p>
@@ -99,9 +117,11 @@ const Job = ({
             <p className="job-status">
                 <b>Status: </b> {job?.jobStatus ? "Job Open" : "Job Closed"}
             </p>
-            <a className="job-link" href={job?.jobLink}>
-                Apply
-            </a>
+            {job?.jobStatus && (
+                <a className="job-link" href={job?.jobLink}>
+                    Apply
+                </a>
+            )}
             <div className="job-contributor">
                 <b>Added By: </b>
                 <User login={job?.contributor!} avatar_url={job?.avatar_url!} />
@@ -122,10 +142,29 @@ const Job = ({
                     </button>
                 </div>
             )}
+            {showReportModal && (
+                <Modal
+                    toggleModal={setShowReportModal}
+                    content={
+                        <NewReportForm
+                            toggleModal={setShowReportModal}
+                            jobID={jobId}
+                            setRerender={setRerender}
+                            rerender={rerender}
+                        />
+                    }
+                    setRerender={setRerender}
+                    rerender={rerender}
+                />
+            )}
         </div>
     );
 
     const [returnContent, setReturnContent] = useState<JSX.Element>(content);
+
+    useEffect(() => {
+        setReturnContent(content);
+    }, [rerender]);
 
     return returnContent;
 };
