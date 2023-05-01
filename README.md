@@ -4,7 +4,6 @@
 Proof of concept for a website to replace the University of Pittsburgh Computer Science Club Internship Repo.
 
 View it live [here](https://cscinternships.onrender.com/)!  
-**_This will probably take ~4 minutes to load. I am hosting it at render.com and they do not have the backend constantly running, sorry_**
 
 ## Features
 - GitHub login so that users can get credit for the jobs they add
